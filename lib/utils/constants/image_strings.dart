@@ -3,7 +3,7 @@ class TImages {
 
   // -- APP Logos
   static const String darkAppLogo = "";
-  static const String LightAppLogo = "";
+  static const String lightAppLogo = "";
 
   // -- Social Logos
   static const String google = "";

@@ -21,7 +21,7 @@ dependencies:
 
   # State Management & Storage
   get: ^4.6.1
-  get_storage: ^2.1.1 # الحزمة مضافة هنا بشكل سليم ومؤكد
+  get_storage: ^2.1.1 
 
   # Date & Time
   jiffy: ^6.4.5

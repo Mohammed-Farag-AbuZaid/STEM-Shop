@@ -5,7 +5,7 @@ class TPricingCalculator {
     double taxRate = getTaxRateForLocation(location);
     double taxAmount = productPrice * taxRate;
 
-    double totalPrice = productPrice + taxAmount ; // جمع السعر الأساسي + الضريبة + الشحن
+    double totalPrice = productPrice + taxAmount ; 
     return totalPrice;
   }
 
@@ -16,7 +16,7 @@ class TPricingCalculator {
   }
 
   static double getTaxRateForLocation(String location) {
-    return 0.10; // نسبة الضريبة 10%
+    return 0.10; 
   }
 
 
