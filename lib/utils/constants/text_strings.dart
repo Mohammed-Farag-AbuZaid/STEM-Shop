@@ -10,6 +10,9 @@ class TTexts {
 
   static const String onBoardingSubTitle1 = "Welcome to a World of Limitless Choices - Your Perfect Product Awaits!";
   static const String onBoardingSubTitle2 = "For Seamless Transactions, Choose Your Perfect Payment Path - Your Convenience, Our Priority!";
+   // -- Login 
+  static const String loginTitle = "Welcome Back!";
+  static const String loginSubTitle = "Make it work, make it right, make it fast - Your Perfect Product Awaits!";
 
   // -- Home
   static const String homeAppbarTitle = "Good day for shopping";
