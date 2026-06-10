@@ -18,10 +18,11 @@ dependencies:
   flutter_svg: ^2.3.0
   font_awesome_flutter: ^11.0.0
   fluttericon: ^2.0.0
+  flutter_native_splash: ^2.3.2
 
   # State Management & Storage
   get: ^4.6.1
-  get_storage: ^2.1.1 # الحزمة مضافة هنا بشكل سليم ومؤكد
+  get_storage: ^2.1.1
 
   # Date & Time
   jiffy: ^6.4.5
@@ -74,6 +75,7 @@ dependencies:
   # Authentication
   google_sign_in: ^7.2.0
   logger: ^2.7.0
+  smooth_page_indicator: ^2.0.1
 
 #------------------ PACKAGES END ------------------#
 
@@ -89,8 +91,8 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/images/
     - assets/logos/
+    - assets/images/on_boarding_images/
 
   fonts:
     - family: Poppins
