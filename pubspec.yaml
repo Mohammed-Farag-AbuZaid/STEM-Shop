@@ -22,7 +22,7 @@ dependencies:
 
   # State Management & Storage
   get: ^4.6.1
-  get_storage: ^2.1.1
+  get_storage: ^2.1.1 
 
   # Date & Time
   jiffy: ^6.4.5
@@ -59,7 +59,7 @@ dependencies:
 
   # QR Code & Others
   qr_flutter: ^4.0.0
-  scan: ^1.6.0
+  mobile_scanner: ^7.1.1
 
   # UI Components & Layout
   grouped_list: ^6.0.0

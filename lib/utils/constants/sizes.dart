@@ -61,5 +61,5 @@ class TSizes {
   static const double cardElevation = 2.0;
 
   // Grid view spacing
-  static const double GridViewSpacing = 16.0;
+  static const double gridViewSpacing = 16.0;
 }
