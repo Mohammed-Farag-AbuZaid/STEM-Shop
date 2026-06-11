@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:stem_shop/common/widgets/success_screen/success_screen.dart';
+import 'package:stem_shop/features/authentication/loging/login.dart';
+import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -59,7 +64,12 @@ class LoginForm extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+               onPressed: () => Get.to(() => SuccessScreen(
+                title: "Login Successful",
+                image: TImages.successImage,
+                subtitle: "You can use STEM Shop now. Explore and enjoy a seamless shopping experience with us!",
+                onPressed: () => Get.to(() => const LoginScreen()),
+              )),
                 child: const Text("Sign In"),
               ),
             ),

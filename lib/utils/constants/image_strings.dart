@@ -9,7 +9,8 @@ class TImages {
   // -- Social Logos
   static const String google = "assets/icons/google_icon.png";
 
-  // -- onboarding images
+  // success Images
+  static const String successImage = "assets/images/success.png";
   // -- Onboarding Images
   static const String onBoardingImage1 =
       "assets/images/on_boarding_images/sammy_Line1.gif";
