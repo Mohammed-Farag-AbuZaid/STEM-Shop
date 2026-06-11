@@ -25,7 +25,7 @@ class TCurvedWidget extends CustomClipper<Path> {
     );
 
     final thirdFirstCurve = Offset(size.width, size.height - 20);
-    final thirdLastCurve = Offset(size.width - 30, size.height);
+    final thirdLastCurve = Offset(size.width , size.height);
     path.quadraticBezierTo(
       thirdFirstCurve.dx,
       thirdFirstCurve.dy,

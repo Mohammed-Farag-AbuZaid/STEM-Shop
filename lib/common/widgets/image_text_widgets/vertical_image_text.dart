@@ -42,7 +42,6 @@ class TVerticalImageText extends StatelessWidget {
                 child: Image(
                   image: AssetImage(image),
                   fit: BoxFit.cover,
-                  color: dark ? TColors.light : TColors.dark,
                 ),
               ),
             ),
@@ -52,7 +51,7 @@ class TVerticalImageText extends StatelessWidget {
             SizedBox(
               width: 55,
               child: Text(
-                'Shoes Category',
+                title,
                 style: Theme.of(
                   context,
                 ).textTheme.labelMedium!.apply(color: TColors.white),

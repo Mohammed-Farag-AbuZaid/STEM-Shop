@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TSectionHeading(
-                          title: "title categories",
+                          title: "Categories",
                           showActionButton: false,
                           textColor: Colors.white,
                         ),
