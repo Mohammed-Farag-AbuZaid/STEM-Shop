@@ -76,6 +76,7 @@ dependencies:
   google_sign_in: ^7.2.0
   logger: ^2.7.0
   smooth_page_indicator: ^2.0.1
+  js: ^0.7.2
 
 #------------------ PACKAGES END ------------------#
 

@@ -1,11 +1,13 @@
 class TImages {
 
   // -- APP Logos
-  static const String darkAppLogo = "assets/logos/dark_logo.png";
-  static const String lightAppLogo = "assets/logos/light_logo.png";
+  static const String darkAppLogoGif = "assets/logos/dark_logo.gif";
+  static const String lightAppLogoGif = "assets/logos/light_logo.gif";
+  static const String darkAppLogoPng = "assets/logos/dark_logo.png";
+  static const String lightAppLogoPng = "assets/logos/light_logo.png";
 
   // -- Social Logos
-  static const String google = "";
+  static const String google = "assets/icons/google_icon.png";
 
   // -- onboarding images
   // -- Onboarding Images
