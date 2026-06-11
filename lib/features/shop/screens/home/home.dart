@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/primary_header_container.dart';
+import 'package:stem_shop/features/authentication/screens/home/home_appbar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,11 +11,19 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TPrimaryHeaderContainer(child: Column(),),
+            TPrimaryHeaderContainer(
+              child: Column(
+                children: [
+                  THomeAppBar(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+
 
