@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stem_shop/features/authentication/screens/onBoarding/onboarding.dart';
 import 'package:stem_shop/utils/theme/theme.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
-import 'utils/theme/theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
