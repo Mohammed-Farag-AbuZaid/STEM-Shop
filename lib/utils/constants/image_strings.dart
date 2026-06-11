@@ -24,4 +24,5 @@ class TImages {
   static const String Sell = "assets/images/Navigationbar/Sell_white.png";
   static const String Profile = "assets/images/Navigationbar/Profile_white.png";
 
+  static const String shoeIcon = "assets/icons/categories/shoe.png";
 }
