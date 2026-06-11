@@ -11,6 +11,9 @@ class TImages {
 
   // success Images
   static const String successImage = "assets/images/success.png";
+
+  // recieve email 
+  static const String emailSentImage = "assets/images/receive_email.png";
   // -- Onboarding Images
   static const String onBoardingImage1 =
       "assets/images/on_boarding_images/sammy_Line1.gif";

@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/success_screen/success_screen.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
+import 'package:stem_shop/features/authentication/screens/password_configrations/forget_password.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -53,7 +54,7 @@ class LoginForm extends StatelessWidget {
                   ],
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const ForgetPassword()),
                   child: const Text("Forgot password?"),
                 ),
               ],
