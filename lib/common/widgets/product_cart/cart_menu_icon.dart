@@ -5,7 +5,7 @@ import 'package:stem_shop/utils/constants/colors.dart';
 class TCartCounterIcon extends StatelessWidget {
   const TCartCounterIcon({
     super.key,
-    required this.iconColor,
+    this.iconColor = TColors.primary,
     required this.onPressed,
   });
 
@@ -20,7 +20,6 @@ class TCartCounterIcon extends StatelessWidget {
           onPressed: onPressed,
           icon: const Icon(
             Iconsax.shopping_cart,
-            color: TColors.white,
           ),
         ),
         Positioned(
@@ -36,8 +35,7 @@ class TCartCounterIcon extends StatelessWidget {
             child: Center(
               child: Text(
                 '3',
-                style: Theme.of(context).textTheme.labelLarge!
-                    .apply(color: TColors.white),
+                style: Theme.of(context).textTheme.labelLarge
               ),
             ),
           ),

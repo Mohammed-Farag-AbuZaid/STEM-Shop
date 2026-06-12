@@ -5,7 +5,7 @@ class TGridLayout extends StatelessWidget {
   const TGridLayout({
     super.key,
     required this.itemCount,
-    this.mainAxisExtent = 250,
+    this.mainAxisExtent = 288,
     required this .itemBuilder,
   });
 

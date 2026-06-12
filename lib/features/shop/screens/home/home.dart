@@ -48,15 +48,21 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(TSizes.defaultSpace),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+
                 children: [
                   TPromoSlider(isDark: isDark),
                   const SizedBox(height: TSizes.spaceBwSections),
-                  Text('Latest Products', style: Theme.of(context).textTheme.titleMedium,),
+                  TSectionHeading(
+                    title: 'Latest Products',
+                    onPressed: () {},
+                    buttonTitle: "See All",
+                  ),
                   const SizedBox(height: TSizes.spaceBwItems),
                   TGridLayout(
                     itemCount: 10,
                     mainAxisExtent: 288,
-                    itemBuilder: (_, index)=> TProductCardVertical(), 
+                    itemBuilder: (_, index) => TProductCardVertical(),
                   ),
                 ],
               ),
@@ -67,4 +73,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
