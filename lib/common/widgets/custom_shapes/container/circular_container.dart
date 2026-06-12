@@ -4,9 +4,9 @@ import "package:stem_shop/utils/constants/colors.dart";
 class TCircularContianer extends StatelessWidget {
   const TCircularContianer({
     super.key,
-    this.width = 400,
-    this.height = 400,
-    this.padding = 0,
+    this.width ,
+    this.height,
+    this.padding = EdgeInsets.zero,
     this.borderRadius = 400,
     this.backgroundColor = TColors.textwhite,
     this.child,
@@ -15,7 +15,7 @@ class TCircularContianer extends StatelessWidget {
 
   final double? width;
   final double? height;
-  final double padding;
+  final EdgeInsets padding;
   final double borderRadius;
   final Color backgroundColor;
   final Widget? child;
@@ -28,7 +28,7 @@ class TCircularContianer extends StatelessWidget {
 
       width: width,
       height: height,
-      padding: EdgeInsets.all(padding),
+      padding: padding,
       decoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(borderRadius)),
       child: child,
     );

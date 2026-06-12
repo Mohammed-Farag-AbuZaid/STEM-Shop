@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/primary_header_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/search_container.dart';
+import 'package:stem_shop/common/widgets/layouts/grid_layout.dart';
+import 'package:stem_shop/common/widgets/product/product_card_vertical.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/features/authentication/screens/home/home_appbar.dart';
 import 'package:stem_shop/features/shop/screens/home/widgets/home_categories.dart';
@@ -45,7 +47,19 @@ class HomeScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(TSizes.defaultSpace),
-              child: TPromoSlider(isDark: isDark),
+              child: Column(
+                children: [
+                  TPromoSlider(isDark: isDark),
+                  const SizedBox(height: TSizes.spaceBwSections),
+                  Text('Latest Products', style: Theme.of(context).textTheme.titleMedium,),
+                  const SizedBox(height: TSizes.spaceBwItems),
+                  TGridLayout(
+                    itemCount: 10,
+                    mainAxisExtent: 288,
+                    itemBuilder: (_, index)=> TProductCardVertical(), 
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -53,3 +67,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
