@@ -95,6 +95,7 @@ flutter:
     - assets/icons/
     - assets/logos/
     - assets/images/
+    - assets/images/user/
     - assets/images/banner/
     - assets/images/on_boarding_images/
     - assets\icons\categories/
