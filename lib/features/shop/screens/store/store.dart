@@ -4,7 +4,9 @@ import 'package:stem_shop/common/widgets/appbar/tabbar.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/search_container.dart';
 import 'package:stem_shop/common/widgets/product_cart/cart_menu_icon.dart';
+import 'package:stem_shop/features/shop/screens/store/category_tap.dart';
 import 'package:stem_shop/features/shop/screens/store/sub_category_card.dart';
+import 'package:stem_shop/features/shop/screens/store/sub_category_showcase.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
@@ -79,108 +81,17 @@ class Store extends StatelessWidget {
           },
           body: TabBarView(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(TSizes.defaultSpace),
-                child: Column(
-                  children: [
-                    TCircularContianer(
-                      showBorder: true,
-                      backgroundColor: Colors.transparent,
-                      borderColor: TColors.borderPrimary,
-                      padding: const EdgeInsets.all(TSizes.sm),
-                      margin: const EdgeInsets.only(
-                        bottom: TSizes.spaceBwItems,
-
-                      ),
-
-                      child: Column(
-                        children: [
-                          const TCategoryCard(showBorder: false),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TCircularContianer(
-                                    height: 100,
-                                    backgroundColor:
-                                        THelperFunctions.isDarkMode(context)
-                                        ? TColors.darkerGrey
-                                        : TColors.light,
-                                    borderColor: TColors.borderPrimary,
-                                    margin: const EdgeInsets.only(
-                                      bottom: TSizes.sm,
-                                    ),
-                                    padding: const EdgeInsets.all(TSizes.md),
-                                    child: Image(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage(TImages.google),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TCircularContianer(
-                                    height: 100,
-                                    backgroundColor:
-                                        THelperFunctions.isDarkMode(context)
-                                        ? TColors.darkerGrey
-                                        : TColors.light,
-                                    borderColor: TColors.borderPrimary,
-                                    margin: const EdgeInsets.only(
-                                      bottom: TSizes.sm,
-                                    ),
-                                    padding: const EdgeInsets.all(TSizes.md),
-                                    child: Image(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage(TImages.google),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TCircularContianer(
-                                    height: 100,
-                                    backgroundColor:
-                                        THelperFunctions.isDarkMode(context)
-                                        ? TColors.darkerGrey
-                                        : TColors.light,
-                                    borderColor: TColors.borderPrimary,
-                                    margin: const EdgeInsets.only(
-                                      bottom: TSizes.sm,
-                                    ),
-                                    padding: const EdgeInsets.all(
-                                      TSizes.spaceBwItems,
-                                    ),
-                                    child: Image(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage(TImages.google),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(),
-              Container(),
-              Container(),
-              Container(),
-              Container(),
-              Container(),
-              Container(),
-              Container(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              TCategoryShowcase(),
+              
+          
             ],
           ),
         ),
@@ -188,3 +99,4 @@ class Store extends StatelessWidget {
     );
   }
 }
+
