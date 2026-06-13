@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/shadows.dart';
 import 'package:stem_shop/common/widgets/images/rounded_image.dart';
+import 'package:stem_shop/features/shop/screens/product_details/screens/product_details.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
@@ -16,9 +19,7 @@ class TProductCardVertical extends StatelessWidget {
     final bool isDark = THelperFunctions.isDarkMode(context);
 
     return GestureDetector(
-      onTap: () {
-        // Handle card tap
-      },
+      onTap: () => Get.to(() => ProductDetailsScreen()),
       child: Container(
         width: 180,
         padding: EdgeInsets.all(5),
