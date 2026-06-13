@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/features/shop/screens/store/sub_category_card.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
-import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 

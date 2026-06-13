@@ -44,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// -- Account Settings
-                  const TSectionHeading(title: 'Account Settings'),
+                  const TSectionHeading(title: 'Account Settings', showActionButton: false),
                   const SizedBox(height: TSizes.spaceBwItems),
 
                   TSettingsMenuTile(
@@ -64,13 +64,8 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.bank,
-                    title: 'Bank Account',
-                    subTitle: 'Withdraw balance to registered bank account',
-                  ),
-                  TSettingsMenuTile(
-                    icon: Iconsax.discount_shape,
-                    title: 'My Coupons',
-                    subTitle: 'List of all the discounted coupons',
+                    title: 'My Wallet',
+                    subTitle: 'Manage your digital wallet and transactions',
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.notification,
@@ -113,6 +108,11 @@ class SettingsScreen extends StatelessWidget {
                     subTitle: 'Set image quality to be seen',
                     trailing: Switch(value: false, onChanged: (value) {}),
                   ),
+
+                  const SizedBox(height: TSizes.spaceBwSections),
+                  SizedBox(width: double.infinity,
+                  child: ElevatedButton(onPressed: () {}, child: Text('Logout'))),
+                  const SizedBox(height: TSizes.spaceBwSections * 2),
                 ],
               ),
             ),

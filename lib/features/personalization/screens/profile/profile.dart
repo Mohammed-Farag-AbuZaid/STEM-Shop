@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
-import 'package:stem_shop/common/widgets/custom_shapes/container/primary_header_container.dart';
-import 'package:stem_shop/common/widgets/list_tiles/settings_menu_tile.dart';
-import 'package:stem_shop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/features/personalization/screens/profile/widgets/profile_menu.dart';
-import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -15,7 +11,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TAppBar(showBackArrow: true, title: Text('Profile')),
+      appBar: const TAppBar(showBackArrowButton: true, title: Text('Profile')),
 
       /// -- Body
       body: SingleChildScrollView(
@@ -70,27 +66,8 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBwItems),
 
               /// /// Heading Profile Info
-              const TSectionHeading(
-                title: 'Profile Information',
-                showActionButton: false,
-              ),
-              const SizedBox(height: TSizes.spaceBwItems),
-
-              TProfileMenu(
-                title: 'Name',
-                value: 'Coding with T',
-                onPressed: () {},
-              ),
-              TProfileMenu(
-                title: 'Username',
-                value: 'coding_with_t',
-                onPressed: () {},
-              ),
-
-              const SizedBox(height: TSizes.spaceBwItems),
-              const Divider(),
-              const SizedBox(height: TSizes.spaceBwItems),
-
+             
+             
               /// /// Heading Personal Info
               const TSectionHeading(
                 title: 'Personal Information',

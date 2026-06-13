@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/appbar/tabbar.dart';
-import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/search_container.dart';
 import 'package:stem_shop/common/widgets/product_cart/cart_menu_icon.dart';
 import 'package:stem_shop/features/shop/screens/store/category_tap.dart';
-import 'package:stem_shop/features/shop/screens/store/sub_category_card.dart';
-import 'package:stem_shop/features/shop/screens/store/sub_category_showcase.dart';
-import 'package:stem_shop/utils/constants/colors.dart';
-import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
