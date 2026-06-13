@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
-import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
 class ProductMetaData extends StatelessWidget {
