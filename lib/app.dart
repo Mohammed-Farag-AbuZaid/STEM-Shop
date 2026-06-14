@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stem_shop/features/authentication/screens/onboarding/onboarding.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/theme/theme.dart';
 
