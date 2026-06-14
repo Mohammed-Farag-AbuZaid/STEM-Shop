@@ -11,7 +11,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TAppBar(showBackArrowButton: true, title: Text('Profile')),
+      appBar: const TAppBar(showBackArrow: true, title: Text('Profile')),
 
       /// -- Body
       body: SingleChildScrollView(
@@ -66,8 +66,7 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBwItems),
 
               /// /// Heading Profile Info
-             
-             
+
               /// /// Heading Personal Info
               const TSectionHeading(
                 title: 'Personal Information',
