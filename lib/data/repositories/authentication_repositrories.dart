@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ class AuthenticationRepository extends GetxController {
 
   /// variables
   final deviceStorage = GetStorage();
-
+  final _auth = FirebaseAuth.instance;
   /// called from main.dart on app launch
   @override
   void onReady(){
