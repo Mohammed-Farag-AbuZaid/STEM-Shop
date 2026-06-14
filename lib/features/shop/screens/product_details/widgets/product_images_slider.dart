@@ -59,7 +59,7 @@ class TProductImageSlider extends StatelessWidget {
             ),
             /// AppBar
             TAppBar(
-              showBackArrowButton: true,
+              showBackArrow: true,
               title: null,
             
             ),

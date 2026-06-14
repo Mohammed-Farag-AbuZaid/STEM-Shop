@@ -26,10 +26,10 @@ class TImages {
   static const String lightDigital = "assets/images/banner/light_degital.png";
 
   // navigation bar icons
-  static const String HOME = "assets/images/Navigationbar/Home_white.png";
-  static const String BUY = "assets/images/Navigationbar/Buy_white.png";
-  static const String Sell = "assets/images/Navigationbar/Sell_white.png";
-  static const String Profile = "assets/images/Navigationbar/Profile_white.png";
+  static const String home = "assets/images/navigationbar/Home_white.png";
+  static const String buy = "assets/images/navigationbar/Buy_white.png";
+  static const String sell = "assets/images/navigationbar/Sell_white.png";
+  static const String profile = "assets/images/navigationbar/Profile_white.png";
 
   // user profile
   static const String user = "assets/images/user.png";

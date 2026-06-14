@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/primary_header_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/search_container.dart';
 import 'package:stem_shop/common/widgets/layouts/grid_layout.dart';
 import 'package:stem_shop/common/widgets/product/product_card_vertical.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/features/authentication/screens/home/home_appbar.dart';
+import 'package:stem_shop/features/shop/screens/all_products/all_products.dart';
 import 'package:stem_shop/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:stem_shop/features/shop/screens/home/widgets/promo_slider.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
@@ -53,12 +56,14 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   TPromoSlider(isDark: isDark),
                   const SizedBox(height: TSizes.spaceBwSections),
+
+                  /// -- Heading
                   TSectionHeading(
-                    title: 'Latest Products',
-                    onPressed: () {},
-                    buttonTitle: "See All",
+                    title: 'Popular Products',
+                    onPressed: () => Get.to(() => AllProducts()),
                   ),
                   const SizedBox(height: TSizes.spaceBwItems),
+
                   TGridLayout(
                     itemCount: 10,
                     mainAxisExtent: 288,
