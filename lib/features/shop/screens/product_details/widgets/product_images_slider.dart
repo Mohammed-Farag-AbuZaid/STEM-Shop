@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/curved_edges/curved_edges_widget.dart';
 import 'package:stem_shop/common/widgets/images/rounded_image.dart';
@@ -9,7 +8,7 @@ import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
 class TProductImageSlider extends StatelessWidget {
-  TProductImageSlider({
+  const TProductImageSlider({
     super.key,
   });
 
