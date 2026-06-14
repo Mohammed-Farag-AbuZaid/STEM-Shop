@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/primary_header_container.dart';
 import 'package:stem_shop/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:stem_shop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
+import 'package:stem_shop/features/personalization/screens/address/address.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
@@ -44,13 +47,17 @@ class SettingsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// -- Account Settings
-                  const TSectionHeading(title: 'Account Settings', showActionButton: false),
+                  const TSectionHeading(
+                    title: 'Account Settings',
+                    showActionButton: false,
+                  ),
                   const SizedBox(height: TSizes.spaceBwItems),
 
                   TSettingsMenuTile(
                     icon: Iconsax.safe_home,
                     title: 'My Addresses',
                     subTitle: 'Set shopping delivery address',
+                    onTap: () => Get.to(() => const UserAddressScreen()),
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.shopping_cart,
@@ -110,8 +117,13 @@ class SettingsScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: TSizes.spaceBwSections),
-                  SizedBox(width: double.infinity,
-                  child: ElevatedButton(onPressed: () {}, child: Text('Logout'))),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Logout'),
+                    ),
+                  ),
                   const SizedBox(height: TSizes.spaceBwSections * 2),
                 ],
               ),
