@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/rounded_container.dart';
-import 'package:stem_shop/common/widgets/custom_shapes/container/shadows.dart';
 import 'package:stem_shop/common/widgets/images/rounded_image.dart';
 import 'package:stem_shop/common/widgets/texts/product_price_text.dart';
 import 'package:stem_shop/common/widgets/texts/product_title.dart';
@@ -47,7 +46,7 @@ class TProductCardHorizontal extends StatelessWidget {
                   top: 12,
                   child: TRoundedContainer(
                     radius: TSizes.sm,
-                    backgroundColor: TColors.secondry.withOpacity(0.8),
+                    backgroundColor: TColors.secondry.withValues(alpha: 0.8),
                     padding: const EdgeInsets.symmetric(horizontal: TSizes.sm, vertical: TSizes.xs),
                     child: Text('25%', style: Theme.of(context).textTheme.labelLarge!.apply(color: TColors.black)),
                   ),

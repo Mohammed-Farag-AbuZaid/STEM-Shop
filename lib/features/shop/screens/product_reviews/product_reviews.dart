@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/product/ratings/rating_indicator.dart';
 import 'package:stem_shop/features/shop/screens/product_reviews/widgets/rating_progress_indicator.dart';
-import 'package:stem_shop/features/shop/screens/product_reviews/widgets/progress_indicator_and_rating.dart';
 import 'package:stem_shop/features/shop/screens/product_reviews/widgets/user_review_card.dart';
 import 'package:stem_shop/utils/constants/sizes.dart'; 
 
