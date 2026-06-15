@@ -1,23 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:stem_shop/features/authentication/controllers/forget_password/forget_password_controller.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
 class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key, this.title, this.message});
+  const ResetPassword({super.key, this.title, this.message, this.email});
 
   final String? title;
   final String? message;
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
     final String title = this.title ?? 'Password Reset Email Sent';
-    final String message = this.message ?? 'your Account Security is our top priority. We have sent you an email with instructions to reset your password.';
-        'your Account Security is our top priority. We have sent you an email with instructions to reset your password.';
+    final String message = this.message ?? 'your Account Security is our top priority. We have sent you an email to $email with instructions to reset your password.';
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -53,15 +55,23 @@ class ResetPassword extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: TSizes.spaceBwSections * 2),
+            /// Resend Email Button
+           
             /// Continue Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.to(() => const LoginScreen()),
+                onPressed: () => Get.offAll(() => const LoginScreen()),
                 
                 child: const Text("Done"),
               ),
             ),
+            SizedBox(height: TSizes.spaceBwItems),
+             if (email != null)
+              TextButton(
+                onPressed: () => Get.find<ForgetPasswordController>().resendPasswordResetEmail(email!),
+                child: const Text("Resend Email"),
+              ),
             ],
           ),
         ),
