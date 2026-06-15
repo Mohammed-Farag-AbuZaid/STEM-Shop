@@ -4,6 +4,7 @@ import 'package:stem_shop/common/widgets/appbar/tabbar.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/search_container.dart';
 import 'package:stem_shop/common/widgets/product_cart/cart_menu_icon.dart';
 import 'package:stem_shop/features/shop/screens/store/category_tap.dart';
+import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
@@ -29,7 +30,7 @@ class Store extends StatelessWidget {
               ),
             ],
           ),
-          actions: [TCartCounterIcon(onPressed: () {})],
+          actions: [TCartCounterIcon(onPressed: () {}, iconColor: TColors.primary, counterBgColor: Colors.black, counterTextColor: Colors.white)],
         ),
         body: NestedScrollView(
           headerSliverBuilder: (_, innerBoxIsScrolled) {

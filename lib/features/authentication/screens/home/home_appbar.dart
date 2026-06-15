@@ -4,9 +4,7 @@ import 'package:stem_shop/common/widgets/product_cart/cart_menu_icon.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 
 class THomeAppBar extends StatelessWidget {
-  const THomeAppBar({
-    super.key,
-  });
+  const THomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +20,19 @@ class THomeAppBar extends StatelessWidget {
           ),
           Text(
             'Mohamed Farag',
-            style: Theme.of(context).textTheme.headlineSmall!
-                .apply(color: TColors.white),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall!.apply(color: TColors.white),
           ),
         ],
       ),
       actions: [
-        TCartCounterIcon(iconColor: TColors.white, onPressed: () {}),
+        TCartCounterIcon(
+          iconColor: TColors.white,
+          counterBgColor: Colors.black,
+          counterTextColor: Colors.white,
+          onPressed: () {},
+        ),
       ],
     );
   }
