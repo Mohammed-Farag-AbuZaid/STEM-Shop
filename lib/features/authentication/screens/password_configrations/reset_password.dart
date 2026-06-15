@@ -8,10 +8,16 @@ import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
 class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+  const ResetPassword({super.key, this.title, this.message});
+
+  final String? title;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
+    final String title = this.title ?? 'Password Reset Email Sent';
+    final String message = this.message ?? 'your Account Security is our top priority. We have sent you an email with instructions to reset your password.';
+        'your Account Security is our top priority. We have sent you an email with instructions to reset your password.';
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -36,13 +42,13 @@ class ResetPassword extends StatelessWidget {
 
             /// Title and Subtitle
             Text(
-              'Password Reset Email Sent',
+              title,
               style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: TSizes.spaceBwSections),
             Text(
-              'your Account Security is our top priority. We have sent you an email with instructions to reset your password.',
+              message,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),

@@ -8,6 +8,7 @@ import 'package:stem_shop/features/authentication/controllers/login/loging_contr
 import 'package:stem_shop/features/authentication/screens/password_configrations/forget_password.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/constants/text_strings.dart';
+import 'package:stem_shop/utils/popups/loaders.dart';
 import 'package:stem_shop/utils/validators/validation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -102,7 +103,15 @@ class LoginForm extends StatelessWidget {
                     "https://tf-unions.netlify.app/#homePage",
                   );
                   if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
+                    await launchUrl(
+                      url,
+                      mode: LaunchMode.externalApplication, // ← forces browser
+                    );
+                  } else {
+                    TLoaders.errorSnackBar(
+                      title: 'Error',
+                      message: 'Could not open the link. Please try again.',
+                    );
                   }
                 },
                 child: const Text("Create a TF account."),

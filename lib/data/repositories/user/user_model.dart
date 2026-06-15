@@ -2,79 +2,125 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stem_shop/utils/formatters/formatters.dart';
 
 class UserModel {
+  final String id;
+  String firstName;
+  String lastName;
+  final String username;
+  final String email;
+  String phone;
+  String profilePicture;
+  String academicLevel;
+  String grade;
+  String stemSchool;
+  String gender;
+  String birthDate;
+  final DateTime? registrationDate;
 
-final String id;
-String firstName;
-String lastName;
-final String username;
-final String email;
-String phone;
-String profilePicture;
-final String academicLevel;
-final String grade;
-final String stemSchool;
+  /// Constructor for UserModel.
+  UserModel({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.username,
+    required this.email,
+    required this.phone,
+    required this.profilePicture,
+    required this.academicLevel,
+    required this.grade,
+    required this.stemSchool,
+    this.gender = '',
+    this.birthDate = '',
+    this.registrationDate,
+  });
 
-/// Constructor for UserModel.
-UserModel({
-required this.id,
-required this.firstName,
-required this.lastName,
-required this.username,
-required this.email,
-required this.phone,
-required this.profilePicture,
-required this.academicLevel,
-required this.grade,
-required this.stemSchool,
-});
+  String get fullName => '$firstName $lastName';
 
-/// Helper function to get the full name.
-String get fullName => '$firstName $lastName';
+  String get formattedPhoneNo => TFormatter.formatPhoneNumber(phone);
 
-/// Helper function to format phone number.
-String get formattedPhoneNo => TFormatter.formatPhoneNumber(phone);
+  static List<String> nameParts(String fullName) => fullName.split(" ");
 
-/// Static function to split full name into first and last name.
-static List<String> nameParts(fullName) => fullName.split(" ");
+  static UserModel empty() => UserModel(
+        id: '',
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        phone: '',
+        profilePicture: '',
+        academicLevel: '',
+        grade: '',
+        stemSchool: '',
+        gender: '',
+        birthDate: '',
+      );
 
+  UserModel copyWith({
+    String? firstName,
+    String? lastName,
+    String? phone,
+    String? profilePicture,
+    String? academicLevel,
+    String? grade,
+    String? stemSchool,
+    String? gender,
+    String? birthDate,
+  }) {
+    return UserModel(
+      id: id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      username: username,
+      email: email,
+      phone: phone ?? this.phone,
+      profilePicture: profilePicture ?? this.profilePicture,
+      academicLevel: academicLevel ?? this.academicLevel,
+      grade: grade ?? this.grade,
+      stemSchool: stemSchool ?? this.stemSchool,
+      gender: gender ?? this.gender,
+      birthDate: birthDate ?? this.birthDate,
+      registrationDate: registrationDate,
+    );
+  }
 
-static UserModel empty() => UserModel(id: '', firstName: '', lastName: '', username: '', email: '', phone: '', profilePicture: '', academicLevel: '', grade: '', stemSchool: '');
+  Map<String, dynamic> toJson() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'username': username,
+      'email': email,
+      'phone': phone,
+      'profilePicture': profilePicture,
+      'academicLevel': academicLevel,
+      'grade': grade,
+      'stemSchool': stemSchool,
+      'gender': gender,
+      'birthDate': birthDate,
+      'registrationDate': registrationDate != null
+          ? Timestamp.fromDate(registrationDate!)
+          : FieldValue.serverTimestamp(),
+    };
+  }
 
-Map<String, dynamic> toJson() {
-return {
-'FirstName': firstName,
-'LastName': lastName,
-'Username' : username,
-'Email': email,
-'PhoneNumber': phone,
-'ProfilePicture': profilePicture,
-'AcademicLevel': academicLevel,
-'stemSchool': stemSchool,
-'grade': grade,
-};
-}
-
-/// Factory method to create a UserModel from a Firebase document snapshot.
-factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
-if (document.data() != null) {
-final data = document.data() !;
-return UserModel(
-id: document.id,
-firstName: data['FirstName' ] ?? '',
-lastName: data[ 'LastName' ] ?? '',
-username: data[ 'Username' ] ?? '',
-email: data['Email'] ?? '',
-phone: data['PhoneNumber'] ?? '',
-profilePicture: data['ProfilePicture' ] ?? '',
-academicLevel: data['AcademicLevel'] ?? '',
-grade: data['Grade'] ?? '',
-stemSchool: data['StemSchool'] ?? '',
-);
-}
-	// If document has no data, return an empty UserModel to satisfy non-nullable return type.
-	return UserModel.empty();
-
-
-}
-
+  factory UserModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
+    if (document.data() != null) {
+      final data = document.data()!;
+      return UserModel(
+        id: document.id,
+        firstName: data['firstName'] ?? '',
+        lastName: data['lastName'] ?? '',
+        username: data['username'] ?? '',
+        email: data['email'] ?? '',
+        phone: data['phone'] ?? '',
+        profilePicture: data['profilePicture'] ?? '',
+        academicLevel: data['academicLevel'] ?? '',
+        grade: data['grade'] ?? '',
+        stemSchool: data['stemSchool'] ?? '',
+        gender: data['gender'] ?? '',
+        birthDate: data['birthDate'] ?? '',
+        registrationDate: (data['registrationDate'] as Timestamp?)?.toDate(),
+      );
+    }
+    return UserModel.empty();
+  }
 }
