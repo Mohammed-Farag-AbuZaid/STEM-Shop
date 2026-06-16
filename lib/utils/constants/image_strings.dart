@@ -31,6 +31,9 @@ class TImages {
   static const String sell = "assets/images/navigationbar/Sell_white.png";
   static const String profile = "assets/images/navigationbar/Profile_white.png";
 
+  // loading
+  static const String loading = "assets/images/loading.json";
+
   // user profile
   static const String user = "assets/images/user.png";
 }

@@ -72,6 +72,24 @@ class TLoaders {
     );
   }
 
+    static void successSnackBar({
+      required String title,
+      String message = '',
+      int duration = 3,
+    }) {
+      Get.snackbar(
+        title,
+        message,
+        isDismissible: true,
+        shouldIconPulse: true,
+        colorText: Colors.white,
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: duration),
+        margin: const EdgeInsets.all(20),
+        icon: const Icon(Iconsax.tick_square, color: TColors.white),
+      );
+    }
   static void hideSnackBar() =>
       ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
 }
