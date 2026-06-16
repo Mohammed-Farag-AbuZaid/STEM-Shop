@@ -82,9 +82,11 @@ class LoginController extends GetxController {
       }
       final userCredentials = await AuthenticationRepository.instance
           .signInWithGoogle();
-
-      // Save User Record
-      await userController.saveUserRecord(userCredentials);
+      final isNewUser =
+          userCredentials?.additionalUserInfo?.isNewUser ?? false;
+      if (isNewUser) {
+        await userController.saveUserRecord(userCredentials);
+      }
 
       // Remove Loader
       TFuelScreenLoader.stopLoading();

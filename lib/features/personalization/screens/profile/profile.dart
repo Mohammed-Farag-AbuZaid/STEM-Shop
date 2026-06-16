@@ -80,6 +80,7 @@ class ProfileScreen extends StatelessWidget {
                 title: 'Gender',
                 value: controller.user.value.gender,
                 onPressed: () {},
+                icon: Iconsax.happyemoji2
               ),
               TProfileMenu(
                 title: 'Whatsapp Number',

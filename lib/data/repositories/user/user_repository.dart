@@ -10,20 +10,23 @@ class UserRepository extends GetxService {
   static UserRepository get instance => Get.find();
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
+Future<void> saveUserRecord(UserModel user) async {
+  try {
+    final docRef = _db.collection("users").doc(user.id);
+    final existing = await docRef.get();
+    if (existing.exists) return;
 
-  Future<void> saveUserRecord(UserModel user) async {
-    try {
-      await _db.collection("users").doc(user.id).set(user.toJson());
-    } on FirebaseException catch (e) {
-      throw 'Firebase error: ${e.code}';
-    } on FormatException catch (_) {
-      throw 'Invalid data format.';
-    } on PlatformException catch (e) {
-      throw 'Platform error: ${e.code}';
-    } catch (e) {
-      throw 'Something went wrong. Please try again.';
-    }
+    await docRef.set(user.toJson());
+  } on FirebaseException catch (e) {
+    throw 'Firebase error: ${e.code}';
+  } on FormatException catch (_) {
+    throw 'Invalid data format.';
+  } on PlatformException catch (e) {
+    throw 'Platform error: ${e.code}';
+  } catch (e) {
+    throw 'Something went wrong. Please try again.';
   }
+}
 
   Future<UserModel> fetchUserDetails() async {
     try {

@@ -48,7 +48,7 @@ class UpdatePhoneController extends GetxController {
     }
 
     Map<String, dynamic> phoneData = {
-      'Phone': phone.text.trim(),
+      'phone': phone.text.trim(),
     };
 
     await userRepository.updateSingleField(phoneData);

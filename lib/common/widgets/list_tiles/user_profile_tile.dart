@@ -36,16 +36,15 @@ class TUserProfileTile extends StatelessWidget {
           );
         }
       }),
-      subtitle:Obx(() {
+      subtitle: Obx(() {
         if (controller.profileLoading.value) {
           return const TShimerEffect(width: 150, height: 20);
         } else {
           return Text(
-            controller.user.value.email,
+            controller.user.value.username,
             style: Theme.of(
               context,
-            ).textTheme.labelSmall
-            !.apply(color: TColors.white),
+            ).textTheme.labelSmall!.apply(color: TColors.white),
           );
         }
       }),

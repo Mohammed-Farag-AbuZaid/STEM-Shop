@@ -5,7 +5,7 @@ class TColors {
 
   // App Basic Colors (الألوان الأساسية لهوية التطبيق)
 
-  static const Color primary = Color(0xff4b68ff);
+  static const Color primary = Color(0xff002583);
   static const Color secondry = Color(0xffffE24b);
   static const Color accent = Color(0x0ffbc7ff);
 

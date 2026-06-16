@@ -4,9 +4,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:stem_shop/features/authentication/controllers/login/email_verification.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
 import 'package:stem_shop/features/authentication/screens/onBoarding/onboarding.dart';
-import 'package:stem_shop/features/authentication/screens/password_configrations/reset_password.dart';
 import 'package:stem_shop/navigation_menu.dart';
 import 'package:stem_shop/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:stem_shop/utils/exceptions/firebase_exceptions.dart';
@@ -18,6 +18,9 @@ class AuthenticationRepository extends GetxController {
   /// Variables
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
+
+  User? get authUser => _auth.currentUser;
+
 
   @override
   void onReady() {
@@ -38,10 +41,7 @@ class AuthenticationRepository extends GetxController {
       } else {
         // If the user's email is not verified, navigate to the VerifyEmailScreen
         Get.offAll(
-          () => ResetPassword(
-            title: 'Email Verification',
-            message:
-                'Please verify your email to continue.\nCheck your inbox for the verification email, if you haven\'t received it, please check your spam folder or request a new verification email.',
+          () => const EmailVerification(
           ),
         );
       }
@@ -92,7 +92,8 @@ class AuthenticationRepository extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
-   Future<void> sendPasswordResetEmail(String email) async {
+
+  Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
