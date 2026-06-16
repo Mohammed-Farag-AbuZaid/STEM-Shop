@@ -1,0 +1,35 @@
+[33m908d88d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33m79c62b2[m HEAD@{1}: reset: moving to HEAD
+[33m79c62b2[m HEAD@{2}: reset: moving to HEAD
+[33m79c62b2[m HEAD@{3}: reset: moving to HEAD
+[33m79c62b2[m HEAD@{4}: commit: add order and cart pages with profile micro-interactions
+[33mf07f831[m HEAD@{5}: commit: implement all-products screen with dropdown filters and build sub-categories screen with horizontal product cards and fix minor layout bugs
+[33m48906fa[m HEAD@{6}: commit: create user addresses and add-new-address screens, and fix layout errors
+[33m2bab6a4[m HEAD@{7}: commit: add product reviews and ratings, fix layout and import bugs
+[33md37729d[m HEAD@{8}: reset: moving to origin/main
+[33m581942e[m HEAD@{9}: pull: Fast-forward
+[33m14e1f6d[m HEAD@{10}: rebase (finish): returning to refs/heads/main
+[33m14e1f6d[m HEAD@{11}: rebase (continue): build Profile and Settings UI screens with custom widgets fix
+[33m06fdaed[m HEAD@{12}: pull origin main --rebase (start): checkout 06fdaeda137493c0a8a6c88c217ff29536cd8524
+[33mdbb2052[m HEAD@{13}: commit: build Profile and Settings UI screens with custom widgets fix
+[33m21eed73[m HEAD@{14}: pull: Fast-forward
+[33m8286732[m HEAD@{15}: commit: solve conflicts
+[33m3fb819e[m HEAD@{16}: commit (merge): Resolve merge conflicts
+[33m54810f9[m HEAD@{17}: commit: created search and categoryies section
+[33mea67b86[m HEAD@{18}: commit: implement NavigationMenu with GetX controller and support dark mode
+[33m47ac87f[m HEAD@{19}: pull: Fast-forward
+[33m0cd0f7b[m HEAD@{20}: pull: Fast-forward
+[33mac2c940[m HEAD@{21}: pull: Fast-forward
+[33me080090[m HEAD@{22}: pull: Fast-forward
+[33m10699ad[m HEAD@{23}: commit: resolve widget layout overlaps, fix syntax bracket nesting, and restore onboarding navigation flow
+[33m1bc3a5c[m HEAD@{24}: commit: fix(login): fix infinite width constraint layout bug and clean up formatting
+[33m620249e[m HEAD@{25}: commit (merge): feat: fix bugs, implement onboarding screens and app splash screen
+[33mf76da66[m HEAD@{26}: checkout: moving from feature/onboarding-and-login to main
+[33mec69288[m[33m ([m[1;32mfeature/onboarding-and-login[m[33m)[m HEAD@{27}: commit: implement onboarding flow and resolve team layout merge conflicts
+[33mf76da66[m HEAD@{28}: checkout: moving from main to feature/onboarding-and-login
+[33mf76da66[m HEAD@{29}: rebase (abort): returning to refs/heads/main
+[33mcad8dea[m HEAD@{30}: pull origin main --rebase (start): checkout cad8dea322a91aee37dfc052b9692c3c29f0a157
+[33mf76da66[m HEAD@{31}: commit: implement onboarding screens and app splash screen
+[33m17cf642[m HEAD@{32}: commit: feat(core): Completed Section 1 themes and utilities architecture after about 10h of deep learning and coding
+[33me3e1515[m HEAD@{33}: commit: test something
+[33m135069e[m HEAD@{34}: clone: from https://github.com/Mohammed-Farag-AbuZaid/STEM-Shop
