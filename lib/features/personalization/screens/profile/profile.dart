@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
+import 'package:stem_shop/features/personalization/controllers/user_controller.dart';
 import 'package:stem_shop/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
@@ -10,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = UserController.instance;
     return Scaffold(
       appBar: const TAppBar(showBackArrow: true, title: Text('Profile')),
 
@@ -51,13 +53,28 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBwItems),
 
               TProfileMenu(
-                title: 'Name',
-                value: 'Coding with T',
+                title: "Name",
+                value: controller.user.value.fullName,
                 onPressed: () {},
               ),
               TProfileMenu(
-                title: 'Username',
-                value: 'coding_with_t',
+                title: 'Grade',
+                value: controller.user.value.grade,
+                onPressed: () {},
+              ),
+              TProfileMenu(
+                title: 'School',
+                value: controller.user.value.stemSchool,
+                onPressed: () {},
+              ),
+              TProfileMenu(
+                title: 'Gender',
+                value: controller.user.value.gender,
+                onPressed: () {},
+              ),
+              TProfileMenu(
+                title: 'Whatsapp Number',
+                value: controller.user.value.phone,
                 onPressed: () {},
               ),
 
@@ -75,27 +92,24 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBwItems),
 
               TProfileMenu(
-                title: 'User ID',
-                value: '45689',
+                title: 'E-mail',
+                value: controller.user.value.email,
                 icon: Iconsax.copy,
                 onPressed: () {},
               ),
               TProfileMenu(
-                title: 'E-mail',
-                value: 'coding_with_t',
+                title: 'Birth Date',
+                value: controller.user.value.birthDate,
+                icon: Iconsax.copy,
                 onPressed: () {},
               ),
               TProfileMenu(
-                title: 'Phone Number',
-                value: '+92-317-8059528',
+                title: 'User ID',
+                value: controller.user.value.id,
+                icon: Iconsax.copy,
                 onPressed: () {},
               ),
-              TProfileMenu(title: 'Gender', value: 'Male', onPressed: () {}),
-              TProfileMenu(
-                title: 'Date of Birth',
-                value: '10 Oct, 1994',
-                onPressed: () {},
-              ),
+
               const Divider(),
               const SizedBox(height: TSizes.spaceBwItems),
 

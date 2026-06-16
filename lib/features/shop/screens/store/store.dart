@@ -28,21 +28,28 @@ class Store extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 4.0),
                 child: Obx(() {
-            if (controller.profileLoading.value) {
-              return const TShimerEffect(width: 150, height: 20);
-            } else {
-              return Text(
-                controller.user.value.stemSchool,
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineSmall!.apply(color: TColors.white),
-              );
-            }
-          }),
+                  if (controller.profileLoading.value) {
+                    return const TShimerEffect(width: 150, height: 20);
+                  } else {
+                    return Text(
+                      controller.user.value.stemSchool,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall!.apply(color: TColors.white),
+                    );
+                  }
+                }),
               ),
             ],
           ),
-          actions: [TCartCounterIcon(onPressed: () {}, iconColor: TColors.primary, counterBgColor: Colors.black, counterTextColor: Colors.white)],
+          actions: [
+            TCartCounterIcon(
+              onPressed: () {},
+              iconColor: TColors.primary,
+              counterBgColor: Colors.black,
+              counterTextColor: Colors.white,
+            ),
+          ],
         ),
         body: NestedScrollView(
           headerSliverBuilder: (_, innerBoxIsScrolled) {
@@ -98,8 +105,6 @@ class Store extends StatelessWidget {
               TCategoryShowcase(),
               TCategoryShowcase(),
               TCategoryShowcase(),
-              
-          
             ],
           ),
         ),
@@ -107,4 +112,3 @@ class Store extends StatelessWidget {
     );
   }
 }
-
