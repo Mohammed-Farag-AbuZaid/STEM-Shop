@@ -14,7 +14,7 @@ class TOrderListItems extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       itemCount: 10,
-      separatorBuilder: (_, __) => const SizedBox(height: TSizes.spaceBwItems),
+      separatorBuilder: (_, _) => const SizedBox(height: TSizes.spaceBwItems),
       itemBuilder: (_, index) => TRoundedContainer(
         showBorder: true,
         padding: const EdgeInsets.all(TSizes.md),

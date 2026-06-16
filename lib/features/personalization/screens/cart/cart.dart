@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
-import 'package:stem_shop/common/widgets/icons/t_circular_icon.dart';
 import 'package:stem_shop/common/widgets/product_cart/cart_item.dart';
 import 'package:stem_shop/common/widgets/product_cart/add_remove_button.dart';
 import 'package:stem_shop/common/widgets/texts/product_price_text.dart';
-import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
-import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +20,7 @@ class CartScreen extends StatelessWidget {
         child: ListView.separated(
           shrinkWrap: true,
           itemCount: 10,
-          separatorBuilder: (_, __) =>
+          separatorBuilder: (_, _) =>
               const SizedBox(height: TSizes.spaceBwSections),
           itemBuilder: (_, index) => Column(
             children: [
