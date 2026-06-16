@@ -9,6 +9,8 @@ import 'package:stem_shop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/data/repositories/authentication_repositrories.dart';
 import 'package:stem_shop/features/personalization/screens/address/address.dart';
+import 'package:stem_shop/features/personalization/screens/cart/cart.dart';
+import 'package:stem_shop/features/personalization/screens/order/order.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
@@ -57,23 +59,20 @@ class SettingsScreen extends StatelessWidget {
                   TSettingsMenuTile(
                     icon: Iconsax.safe_home,
                     title: 'My Addresses',
-                    subTitle: 'Set shopping delivery address',
+                    subTitle: 'Set shopping address',
                     onTap: () => Get.to(() => const UserAddressScreen()),
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.shopping_cart,
                     title: 'My Cart',
-                    subTitle: 'Add, remove products and move to checkout',
+                    subTitle: 'Add, remove products',
+                    onTap: () => Get.to(() => const CartScreen()),
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.bag_tick,
                     title: 'My Orders',
                     subTitle: 'In-progress and Completed Orders',
-                  ),
-                  TSettingsMenuTile(
-                    icon: Iconsax.bank,
-                    title: 'My Wallet',
-                    subTitle: 'Manage your digital wallet and transactions',
+                    onTap: () => Get.to(() => const OrderScreen()),
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.notification,
