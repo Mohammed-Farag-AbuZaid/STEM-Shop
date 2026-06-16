@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stem_shop/data/repositories/user/user_repository.dart';
 import 'package:stem_shop/features/personalization/controllers/user_controller.dart';
-import 'package:stem_shop/features/personalization/screens/profile/profile.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/helpers/network_manager.dart';
 import 'package:stem_shop/utils/popups/full_screen_loader.dart';
@@ -20,7 +19,6 @@ class UpdatePhoneController extends GetxController {
   void onInit() {
     super.onInit();
     initializePhone();
-
   }
 
   Future<void> initializePhone() async {
@@ -28,50 +26,53 @@ class UpdatePhoneController extends GetxController {
   }
 
   Future<void> updateUserPhone() async {
-  try {
-    TFuelScreenLoader.openLoadingDialog(
-      'Updating phone...',
-      TImages.loading,
-    );
+    try {
+      TFuelScreenLoader.openLoadingDialog(
+        'Updating phone...',
+        TImages.loading,
+      );
 
-    final isConnected = await NetworkManager.instance.isConnected();
+      final isConnected = await NetworkManager.instance.isConnected();
 
-    if (!isConnected) {
+      if (!isConnected) {
+        TFuelScreenLoader.stopLoading();
+        return;
+      }
+
+      // Validate form
+      if (!updateUserPhoneFormKey.currentState!.validate()) {
+        TFuelScreenLoader.stopLoading();
+        return;
+      }
+
+      final trimmedPhone = phone.text.trim();
+
+      Map<String, dynamic> phoneData = {
+        'phone': trimmedPhone,
+      };
+
+      await userRepository.updateSingleField(phoneData);
+
+      userController.user.value = userController.user.value.copyWith(
+        phone: trimmedPhone,
+      );
+
       TFuelScreenLoader.stopLoading();
-      return;
-    }
+      Get.back();
 
-    // Validate form
-    if (!updateUserPhoneFormKey.currentState!.validate()) {
+      TLoaders.successSnackBar(
+        title: 'Congrats',
+        message: 'Your phone number has been updated successfully',
+      );
+
+      Get.back();
+    } catch (e) {
       TFuelScreenLoader.stopLoading();
-      return;
+
+      TLoaders.errorSnackBar(
+        title: 'Error',
+        message: e.toString(),
+      );
     }
-
-    Map<String, dynamic> phoneData = {
-      'phone': phone.text.trim(),
-    };
-
-    await userRepository.updateSingleField(phoneData);
-
-    userController.user.value.phone = phone.text.trim();
-
-    TFuelScreenLoader.stopLoading();
-
-    TLoaders.successSnackBar(
-      title: 'Congrats',
-      message: 'Your phone number has been updated successfully',
-    );
-
-    Get.off(() => const ProfileScreen());
-  } catch (e) {
-    TFuelScreenLoader.stopLoading();
-
-    TLoaders.errorSnackBar(
-      title: 'Error',
-      message: e.toString(),
-    );
   }
 }
-}
-
-
