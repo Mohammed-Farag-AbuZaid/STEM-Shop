@@ -17,7 +17,7 @@ class TSingleAddress extends StatelessWidget {
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: TSizes.spaceBwItems),
       decoration: BoxDecoration(
-        color: selectedAddress ? TColors.primary.withOpacity(0.5) : Colors.transparent,
+        color: selectedAddress ? TColors.primary.withValues(alpha: 0.5) : Colors.transparent,
         borderRadius: BorderRadius.circular(100),
         border: Border.all(
           color: selectedAddress

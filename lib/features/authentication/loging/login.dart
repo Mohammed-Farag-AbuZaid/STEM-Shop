@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:stem_shop/common/styles/spacing_styles.dart';
+import 'package:stem_shop/features/authentication/controllers/login/loging_controllers.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
@@ -13,19 +16,17 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final controller = Get.put(LoginController());
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: TSpacingStyle.paddingWithAppBarHieght,
-
           child: Column(
             children: [
-              // Logo and Title
               LoginHeader(dark: dark),
+              const LoginForm(),
 
-              // Form
-              LoginForm(),
               // Divider
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    " Or continue with ",
+                    ' Or continue with ',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Flexible(
@@ -52,23 +53,34 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               SizedBox(height: TSizes.spaceBwSections),
-              // Social Login Buttons
+
+              // Google Sign-In button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: dark ? TColors.darkGrey : TColors.grey),
-                      color: dark ? TColors.darkContainer : TColors.lightContainer,
+                      border: Border.all(
+                        color: dark ? TColors.darkGrey : TColors.grey,
+                      ),
+                      color: dark
+                          ? TColors.darkContainer
+                          : TColors.lightContainer,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: IconButton(
-                      onPressed: () {},
-                      icon: const Image( width: TSizes.iconMd, height: TSizes.iconMd, image: AssetImage(TImages.google)),
+                      onPressed: () => controller.googleLogin(),
+                      icon: Image(
+                        width: TSizes.iconMd,
+                        height: TSizes.iconMd,
+                        image: const AssetImage(TImages.google),
+                      ),
                     ),
-                  )
-              ],)
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -76,4 +88,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-

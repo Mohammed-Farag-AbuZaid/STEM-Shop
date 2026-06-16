@@ -4,7 +4,7 @@ import 'package:stem_shop/features/personalization/screens/order/widgets/order_l
 import 'package:stem_shop/utils/constants/sizes.dart';
 
 class OrderScreen extends StatelessWidget {
-  const OrderScreen({Key? key}) : super(key: key);
+  const OrderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -47,16 +47,18 @@ class TValidator {
   }
 
   static String? validatePhoneNumber(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Phone number is required.';
-    }
-
-    final phoneRegExp = RegExp(r'^\d{11}$');
-
-    if (!phoneRegExp.hasMatch(value)) {
-      return 'Invalid phone number format (11 digits required).';
-    }
-
-    return null;
+  if (value == null || value.trim().isEmpty) {
+    return 'Phone number is required.';
   }
+
+  final phone = value.trim();
+
+  final phoneRegExp = RegExp(r'^[1-9]\d{9}$');
+
+  if (!phoneRegExp.hasMatch(phone)) {
+    return 'Phone number must be exactly 10 digits. like this format: 1012345678';
+  }
+
+  return null;
+}
 }
