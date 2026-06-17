@@ -20,19 +20,23 @@ class TUserProfileTile extends StatelessWidget {
 
     return ListTile(
       // const TCircularImage(image: TImages.user, width: 50, height: 50, padding: 0)
-      leading: Obx(() {
-        final networkImage = controller.user.value.profilePicture;
-        final image = networkImage.isNotEmpty ? networkImage : TImages.user;
-        return controller.imageUploading.value
-            ? TShimerEffect(width: 80, height: 80, radius: 80)
-            : TCircularImage(
-                width: 80,
-                height: 80,
-                isNetworkImage: networkImage.isNotEmpty,
-                imagePath: image,
-              );
-      }),
-
+      leading: SizedBox(
+        width: 60,
+        height: 60,
+        child: Obx(() {
+          final networkImage = controller.user.value.profilePicture;
+          final image = networkImage.isNotEmpty ? networkImage : TImages.user;
+          return controller.imageUploading.value
+              ? TShimerEffect(width: 80, height: 80, radius: 80)
+              : TCircularImage(
+                  width: 80,
+                  height: 80,
+                  isNetworkImage: networkImage.isNotEmpty,
+                  imagePath: image,
+                );
+        }),
+      ),
+      
       title: Obx(() {
         if (controller.profileLoading.value) {
           return const TShimerEffect(width: 150, height: 20);

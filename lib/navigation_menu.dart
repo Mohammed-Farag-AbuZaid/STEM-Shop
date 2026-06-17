@@ -28,7 +28,7 @@ class NavigationMenu extends StatelessWidget {
           indicatorColor: darkMode ? TColors.white.withValues(alpha: 0.1) : TColors.black.withValues(alpha: 0.1),
           destinations: [
             const NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            const NavigationDestination(icon: Icon(Iconsax.bag_tick), label: 'Buy'),
+            const NavigationDestination(icon: Icon(Iconsax.shop), label:'Store'),
             NavigationDestination(
               icon: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -42,9 +42,9 @@ class NavigationMenu extends StatelessWidget {
                   size: 20,
                 ),
               ),
-              label: 'Sell',
+              label: 'Add',
             ),
-            const NavigationDestination(icon: Icon(Iconsax.card_send), label: 'Store'),
+            const NavigationDestination(icon: Icon(Iconsax.alarm), label: 'Requests'),
             const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
         ),

@@ -107,7 +107,8 @@ flutter:
     - assets/images/user/
     - assets/images/banner/
     - assets/images/on_boarding_images/
-    - assets\icons\categories/
+    - assets/icons/categories/
+    - assets/images/categories/
 
   fonts:
     - family: Poppins
