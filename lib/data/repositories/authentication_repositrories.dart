@@ -21,7 +21,6 @@ class AuthenticationRepository extends GetxController {
 
   User? get authUser => _auth.currentUser;
 
-
   @override
   void onReady() {
     // Remove the native splash screen
@@ -40,10 +39,7 @@ class AuthenticationRepository extends GetxController {
         Get.offAll(() => const NavigationMenu());
       } else {
         // If the user's email is not verified, navigate to the VerifyEmailScreen
-        Get.offAll(
-          () => const EmailVerification(
-          ),
-        );
+        Get.offAll(() => const EmailVerification());
       }
     } else {
       // Local Storage
@@ -151,4 +147,6 @@ class AuthenticationRepository extends GetxController {
       return null;
     }
   }
+
+
 }

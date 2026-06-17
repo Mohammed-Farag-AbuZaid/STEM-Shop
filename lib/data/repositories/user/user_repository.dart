@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:stem_shop/data/repositories/user/user_model.dart';
 import 'package:stem_shop/utils/exceptions/firebase_exceptions.dart';
 import 'package:stem_shop/utils/exceptions/formate_exceptions.dart';
@@ -9,24 +13,26 @@ import 'package:stem_shop/utils/exceptions/formate_exceptions.dart';
 class UserRepository extends GetxService {
   static UserRepository get instance => Get.find();
 
-  FirebaseFirestore get _db => FirebaseFirestore.instance;
-Future<void> saveUserRecord(UserModel user) async {
-  try {
-    final docRef = _db.collection("users").doc(user.id);
-    final existing = await docRef.get();
-    if (existing.exists) return;
+  static const String _cloudinaryCloudName = 'ddf0yaapn';
 
-    await docRef.set(user.toJson());
-  } on FirebaseException catch (e) {
-    throw 'Firebase error: ${e.code}';
-  } on FormatException catch (_) {
-    throw 'Invalid data format.';
-  } on PlatformException catch (e) {
-    throw 'Platform error: ${e.code}';
-  } catch (e) {
-    throw 'Something went wrong. Please try again.';
+  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  Future<void> saveUserRecord(UserModel user) async {
+    try {
+      final docRef = _db.collection("users").doc(user.id);
+      final existing = await docRef.get();
+      if (existing.exists) return;
+
+      await docRef.set(user.toJson());
+    } on FirebaseException catch (e) {
+      throw 'Firebase error: ${e.code}';
+    } on FormatException catch (_) {
+      throw 'Invalid data format.';
+    } on PlatformException catch (e) {
+      throw 'Platform error: ${e.code}';
+    } catch (e) {
+      throw 'Something went wrong. Please try again.';
+    }
   }
-}
 
   Future<UserModel> fetchUserDetails() async {
     try {
@@ -88,6 +94,33 @@ Future<void> saveUserRecord(UserModel user) async {
       throw const TFormatException();
     } catch (e) {
       throw 'Something went wrong. Please try again';
+    }
+  }
+
+  /// upload any image
+  Future<String> uploadImage(String uploadPreset, XFile image) async {
+    try {
+      final url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/$_cloudinaryCloudName/image/upload',
+      );
+
+      final request = http.MultipartRequest('POST', url)
+        ..fields['upload_preset'] = uploadPreset
+        ..files.add(await http.MultipartFile.fromPath('file', image.path));
+
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+
+      if (response.statusCode != 200) {
+        throw 'Cloudinary upload failed: $responseBody';
+      }
+
+      final data = jsonDecode(responseBody) as Map<String, dynamic>;
+      return data['secure_url'] as String;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } catch (e) {
+      throw 'Something went wrong while uploading the image: $e';
     }
   }
 }

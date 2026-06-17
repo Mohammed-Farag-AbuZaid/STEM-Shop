@@ -5,14 +5,17 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
+import 'package:stem_shop/common/widgets/images/circular_image.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/features/authentication/screens/update_user_info/change_academciinfo_screen.dart';
 import 'package:stem_shop/features/authentication/screens/update_user_info/change_name_screen.dart';
 import 'package:stem_shop/features/authentication/screens/update_user_info/change_phone_screen.dart';
 import 'package:stem_shop/features/personalization/controllers/user_controller.dart';
 import 'package:stem_shop/features/personalization/screens/profile/widgets/profile_menu.dart';
+import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/popups/loaders.dart';
+import 'package:stem_shop/utils/popups/shimmer.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -34,13 +37,21 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.grey,
-                      child: Icon(Icons.person, size: 40, color: Colors.white),
-                    ),
+                    Obx(() {
+                      final networkImage = controller.user.value.profilePicture;
+                      final image = networkImage.isNotEmpty
+                          ? networkImage
+                          : TImages.user;
+                      return controller.imageUploading.value
+                          ? TShimerEffect(width: 80, height: 80, radius: 80)
+                          :TCircularImage(
+                        width: 80,
+                        height: 80,
+                        isNetworkImage: networkImage.isNotEmpty, imagePath: image,
+                      );
+                    }),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => controller.uploadUserProfilePicture(),
                       child: const Text('Change Profile Picture'),
                     ),
                   ],

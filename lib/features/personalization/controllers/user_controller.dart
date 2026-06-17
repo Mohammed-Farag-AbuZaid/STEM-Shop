@@ -1,12 +1,14 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stem_shop/data/repositories/user/user_model.dart';
 import 'package:stem_shop/data/repositories/user/user_repository.dart';
 import 'package:stem_shop/utils/popups/loaders.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
-
+  final imageUploading = false.obs;
   final profileLoading = false.obs;
   Rx<UserModel> user = UserModel.empty().obs;
   final userRepository = Get.put(UserRepository());
@@ -32,6 +34,9 @@ class UserController extends GetxController {
   /// Save user Record from any Registration provider
   Future<void> saveUserRecord(UserCredential? userCredentials) async {
     try {
+      /// Refresh user record
+      await fetchUserRecord();
+
       if (userCredentials != null) {
         // Convert Name to First and Last Name
         final nameParts = UserModel.nameParts(
@@ -61,4 +66,36 @@ class UserController extends GetxController {
       );
     }
   }
+
+  Future<void> uploadUserProfilePicture() async {
+  try {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+    if (image != null) {
+      imageUploading.value = true;
+
+      final imageUrl = await userRepository.uploadImage(
+        'first_unsigned_preset',
+        image,
+      );
+      Map<String, dynamic> json = {'profilePicture': imageUrl};
+      await userRepository.updateSingleField(json);
+
+      user.value = user.value.copyWith(profilePicture: imageUrl);
+
+      TLoaders.successSnackBar(
+        title: 'Congratulations',
+        message: 'Your Profile Image has been updated!',
+      );
+    }
+  } catch (e) {
+    TLoaders.errorSnackBar(title: 'OhSnap', message: 'Something went wrong: $e');
+  } finally {
+    imageUploading.value = false;
+  }
+}
 }

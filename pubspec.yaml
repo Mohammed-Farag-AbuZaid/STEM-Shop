@@ -33,7 +33,7 @@ dependencies:
   http: ^1.6.0
 
   # Images & Pickers
-  cached_network_image: ^3.2.0
+  cached_network_image: ^3.4.1
   image_picker: ^1.2.2
   image_pickers: ^2.0.0+2
 
@@ -85,6 +85,9 @@ dependencies:
   connectivity_plus: ^7.1.1
   lottie: ^3.3.3
   shimmer: ^3.0.0
+  cloudinary_flutter: ^1.3.0
+  cloudinary_url_gen: ^1.8.0
+  firebase_storage: ^13.4.2
 #------------------ PACKAGES END ------------------#
 
 dev_dependencies:
