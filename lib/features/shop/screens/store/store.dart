@@ -11,8 +11,8 @@ import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 import 'package:stem_shop/utils/popups/shimmer.dart';
 
-class Store extends StatelessWidget {
-  const Store({super.key});
+class StoreScreen extends StatelessWidget {
+  const StoreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

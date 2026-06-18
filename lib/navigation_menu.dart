@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/features/personalization/screens/seetings/settings.dart';
+import 'package:stem_shop/features/shop/screens/add/add.dart';
 import 'package:stem_shop/features/shop/screens/comming_soon/comming_soon.dart';
 import 'package:stem_shop/features/shop/screens/home/home.dart';
 import 'package:stem_shop/features/shop/screens/product_details/screens/product_details.dart';
@@ -59,8 +60,8 @@ class NavigationController extends GetxController {
 
   final screens = [
     const HomeScreen(),
-    const ProductDetailsScreen(),
-    Container(color: Colors.green),
+    const StoreScreen(),
+    const AddScreen(),
     const ComingSoonScreen(),
     const SettingsScreen(),
   ];

@@ -1,41 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:stem_shop/features/personalization/screens/cart/cart.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 
 class TCartCounterIcon extends StatelessWidget {
   const TCartCounterIcon({
     super.key,
-    this.iconColor = TColors.primary,
-    required this.onPressed, required Color counterBgColor, required Color counterTextColor,
+    required this.onPressed,
+    this.iconColor = TColors.white, required Color counterBgColor, required Color counterTextColor,
   });
 
-  final Color? iconColor;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         IconButton(
-          onPressed: onPressed,
-          icon: const Icon(
-            Iconsax.shopping_cart,
-          ),
+          onPressed: () => Get.to(() => const CartScreen()),
+          icon: Icon(Iconsax.shopping_bag, color: iconColor),
         ),
         Positioned(
           right: 0,
-          top: 0,
           child: Container(
-            height: 18,
             width: 18,
+            height: 18,
             decoration: BoxDecoration(
-              color: iconColor,
+              color: TColors.black,
               shape: BoxShape.circle,
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 '3',
-                style: Theme.of(context).textTheme.labelLarge
+                style: TextStyle(
+                  color: TColors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
