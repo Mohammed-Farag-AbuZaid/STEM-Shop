@@ -1,8 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:stem_shop/data/services/cloudinary_storage_service.dart';
 import 'package:stem_shop/features/shop/models/category_model.dart';
 import 'package:stem_shop/utils/exceptions/firebase_exceptions.dart';
+
+// Top-level function required by compute() — must be outside the class
+Future<Uint8List> _loadAssetBytes(String path) async {
+  final byteData = await rootBundle.load(path);
+  return byteData.buffer.asUint8List(
+    byteData.offsetInBytes,
+    byteData.lengthInBytes,
+  );
+}
 
 class CategoryRepository extends GetxController {
   static CategoryRepository get instance => Get.find();
@@ -40,35 +50,37 @@ class CategoryRepository extends GetxController {
     }
   }
 
-  /// Upload dummy data to Firestore — run once from a dev/admin screen
+  /// Upload dummy data — run once from the settings screen
   Future<void> uploadDummyData(List<CategoryModel> categories) async {
-    try {
-      final cloudinary = Get.put(TCloudinaryService());
+  try {
+    final cloudinary = Get.put(TCloudinaryService());
 
-      for (var category in categories) {
-        // Only upload image if one is defined (main categories only)
-        if (category.image.isNotEmpty) {
-          final imageBytes = await cloudinary.getImageDataFromAssets(
-            category.image,
-          );
+    for (var category in categories) {
+      if (category.image.isNotEmpty) {
+        // Load bytes on main thread (fast — local file read)
+        final byteData = await rootBundle.load(category.image);
+        final imageBytes = byteData.buffer.asUint8List(
+          byteData.offsetInBytes,
+          byteData.lengthInBytes,
+        );
 
-          final url = await cloudinary.uploadImageData(
-            imageBytes,
-            category.name,
-          );
+        // Upload is async HTTP — doesn't block the UI
+        final url = await cloudinary.uploadImageData(imageBytes);
 
-          category.image = url;
-        }
+        category.image = url;
 
-        await _db
-            .collection('Categories')
-            .doc(category.id)
-            .set(category.toJson());
+        await Future.delayed(const Duration(milliseconds: 300));
       }
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } catch (e) {
-      throw 'Something went wrong. Please try again';
+
+      await _db
+          .collection('Categories')
+          .doc(category.id)
+          .set(category.toJson());
     }
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+  } catch (e) {
+    throw 'Something went wrong. Please try again: $e';
   }
+}
 }

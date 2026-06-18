@@ -17,7 +17,7 @@ class THomeCategories extends StatelessWidget {
         return Center(child: Text('No Data Found', style: Theme.of(context).textTheme.bodyMedium! .apply(color: Colors.white)));
       }
       return SizedBox(
-        height: 80,
+        height: 110,
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: categoryController.featuredCategories.length,

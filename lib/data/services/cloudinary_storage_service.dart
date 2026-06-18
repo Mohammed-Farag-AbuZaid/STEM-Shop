@@ -20,9 +20,9 @@ class TCloudinaryService extends GetxController {
       throw 'Failed to load image from assets: $e';
     }
   }
+
   Future<String> uploadImageData(
-    Uint8List imageBytes,
-    String fileName, {
+    Uint8List imageBytes, {
     String uploadPreset = 'stem_shop_products',
   }) async {
     try {
@@ -38,7 +38,7 @@ class TCloudinaryService extends GetxController {
         body: {
           'file': dataUri,
           'upload_preset': uploadPreset,
-          'public_id': fileName,
+          // No public_id — Cloudinary generates a unique one automatically
         },
       );
 

@@ -14,7 +14,10 @@ import 'package:stem_shop/features/personalization/screens/address/address.dart'
 import 'package:stem_shop/features/personalization/screens/cart/cart.dart';
 import 'package:stem_shop/features/personalization/screens/order/order.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
+import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
+import 'package:stem_shop/utils/popups/full_screen_loader.dart';
+import 'package:stem_shop/utils/popups/loaders.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -99,7 +102,26 @@ class SettingsScreen extends StatelessWidget {
                     title: 'Load Data',
                     subTitle: 'Upload Data to your Cloud Firebase',
                     onTap: () async {
-                     await CategoryRepository.instance.uploadDummyData(DummyData.categories);
+                      TFuelScreenLoader.openLoadingDialog(
+                        'Uploading categories...',
+                        TImages.loading,
+                      );
+                      try {
+                        await CategoryRepository.instance.uploadDummyData(
+                          DummyData.categories,
+                        );
+                        TFuelScreenLoader.stopLoading();
+                        TLoaders.successSnackBar(
+                          title: 'Success',
+                          message: 'Categories uploaded successfully!',
+                        );
+                      } catch (e) {
+                        TFuelScreenLoader.stopLoading();
+                        TLoaders.errorSnackBar(
+                          title: 'Error',
+                          message: e.toString(),
+                        );
+                      }
                     },
                   ),
                   TSettingsMenuTile(

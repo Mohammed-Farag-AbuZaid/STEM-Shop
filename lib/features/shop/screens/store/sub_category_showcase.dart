@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
+import 'package:stem_shop/features/shop/models/category_model.dart';
 import 'package:stem_shop/features/shop/screens/store/sub_category_card.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
 class TSubCategoryShowcase extends StatelessWidget {
-  const TSubCategoryShowcase({super.key, required this.images});
+  const TSubCategoryShowcase({
+    super.key,
+    required this.subCategory,
+    required this.images,
+  });
+
+  final CategoryModel subCategory;
   final List<String> images;
+
   @override
   Widget build(BuildContext context) {
     return TCircularContianer(
@@ -16,23 +24,23 @@ class TSubCategoryShowcase extends StatelessWidget {
       borderColor: TColors.borderPrimary,
       padding: const EdgeInsets.all(TSizes.sm),
       margin: const EdgeInsets.only(bottom: TSizes.spaceBwItems),
-
       child: Column(
         children: [
-          TCategoryCard(showBorder: false),
-            const SizedBox(height: TSizes.spaceBwItems),
-
+          // Subcategory header row — pass the subcategory name
+          TSubCategoryCard(showBorder: false, subCategory: subCategory, images: []),
+          const SizedBox(height: TSizes.spaceBwItems),
+          // 3 product image placeholders
           Row(
-            children: [
-              ...images.map((image) => brandTopProdutsImageWidget(image, context)),
-            ],
+            children: images
+                .map((image) => _productImageWidget(image, context))
+                .toList(),
           ),
         ],
       ),
     );
   }
 
-  Widget brandTopProdutsImageWidget(String image, context) {
+  Widget _productImageWidget(String image, BuildContext context) {
     return Expanded(
       child: TCircularContianer(
         height: 100,
