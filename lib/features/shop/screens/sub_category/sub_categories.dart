@@ -26,7 +26,7 @@ class SubCategoriesScreen extends StatelessWidget {
                 height: 200,
                 backgroundColor: TColors.light,
                 child: TRoundedImage(
-                  imagePath: TImages.lightDigital,
+                  imagePath: TImages.shopNow,
                   applyImageRadius: true,
                 ),
               ),

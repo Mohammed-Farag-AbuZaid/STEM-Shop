@@ -38,7 +38,7 @@ class TProductCardHorizontal extends StatelessWidget {
                 const SizedBox(
                   height: 120,
                   width: 120,
-                  child: TRoundedImage(imagePath: TImages.lightDigital, applyImageRadius: true),
+                  child: TRoundedImage(imagePath: TImages.tfLogo, applyImageRadius: true),
                 ),
 
                 /// -- Sale Tag

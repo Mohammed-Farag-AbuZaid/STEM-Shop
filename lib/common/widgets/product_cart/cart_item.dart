@@ -17,7 +17,7 @@ class TcartItem extends StatelessWidget {
       children: [
         /// Image
         TRoundedImage(
-          imagePath: TImages.lightDigital,
+          imagePath: TImages.request,
           width: 60,
           height: 60,
           padding: const EdgeInsets.all(TSizes.sm),

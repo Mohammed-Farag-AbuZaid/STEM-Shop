@@ -28,7 +28,7 @@ class TProductImageSlider extends StatelessWidget {
                   padding: const EdgeInsets.all(
                     TSizes.productImageRadius * 2,
                   ),
-                  child: TRoundedImage(imagePath: TImages.lightDigital)
+                  child: TRoundedImage(imagePath: TImages.tfLogo)
                 ),
               ),
             ),
@@ -47,7 +47,7 @@ class TProductImageSlider extends StatelessWidget {
                   itemCount: 3,
                   separatorBuilder: (_, _) => const SizedBox(width: TSizes.spaceBwItems),
                   itemBuilder: (_, index) => TRoundedImage(
-                    imagePath: TImages.lightDonation,
+                    imagePath: TImages.emailSentImage,
                     width: 80,
                     height: 80,
                     backgroundColor: isDark ? TColors.dark : TColors.white,

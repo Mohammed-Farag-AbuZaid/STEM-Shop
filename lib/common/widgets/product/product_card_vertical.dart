@@ -39,7 +39,7 @@ class TProductCardVertical extends StatelessWidget {
               child: Stack(
                 children: [
                   TRoundedImage(
-                    imagePath: TImages.darkDigital,
+                    imagePath: TImages.shopNow,
                     applyImageRadius: true,
                   ),
                   Positioned(

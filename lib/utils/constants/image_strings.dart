@@ -20,10 +20,9 @@ class TImages {
       "assets/images/on_boarding_images/sammy_Line2.gif";
 
   // bnnner
-  static const String darkDonation = "assets/images/banner/dark_donaion.png";
-  static const String lightDonation = "assets/images/banner/light_donation.png";
-  static const String darkDigital = "assets/images/banner/dark_degital.png";
-  static const String lightDigital = "assets/images/banner/light_degital.png";
+  static const String tfLogo = "assets/images/banner/tf.png";
+  static const String request = "assets/images/banner/shop.png";
+  static const String shopNow = "assets/images/banner/request.png";
 
   // navigation bar icons
   static const String home = "assets/images/navigationbar/Home_white.png";
