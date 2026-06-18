@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/features/personalization/screens/seetings/settings.dart';
 import 'package:stem_shop/features/shop/screens/add/add.dart';
-import 'package:stem_shop/features/shop/screens/comming_soon/comming_soon.dart';
+import 'package:stem_shop/features/shop/screens/requests/requests_screens.dart.dart';
 import 'package:stem_shop/features/shop/screens/home/home.dart';
 import 'package:stem_shop/features/shop/screens/product_details/screens/product_details.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
@@ -62,7 +62,7 @@ class NavigationController extends GetxController {
     const HomeScreen(),
     const StoreScreen(),
     const AddScreen(),
-    const ComingSoonScreen(),
+    const RequestsScreen(),
     const SettingsScreen(),
   ];
 }

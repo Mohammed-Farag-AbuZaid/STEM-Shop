@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stem_shop/features/shop/screens/comming_soon/comming_soon.dart';
+import 'package:stem_shop/features/shop/screens/requests/requests_screens.dart.dart';
 import 'package:stem_shop/features/shop/screens/product_details/screens/tfunions_info_screen.dart';
 import 'package:stem_shop/features/shop/screens/store/store.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
@@ -29,7 +29,7 @@ class HomeController extends GetxController {
       ),
       TBannerItem(
         imagePath: TImages.shopNow,
-        pageBuilder: (context) => const ComingSoonScreen(),
+        pageBuilder: (context) => const RequestsScreen(),
       ),
       TBannerItem(
         imagePath: TImages.request,

@@ -10,17 +10,19 @@ import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+class AddRequestScreen extends StatefulWidget {
+  const AddRequestScreen({super.key});
 
   @override
-  State<AddScreen> createState() => _AddScreenState();
+  State<AddRequestScreen> createState() => _AddRequestScreenState();
 }
 
-class _AddScreenState extends State<AddScreen> {
+class _AddRequestScreenState extends State<AddRequestScreen> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _discountController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   double _finalPrice = 0.0;
+  String _schoolScope = 'my_school';
 
   TextEditingController? get _phoneController => null;
 
@@ -41,6 +43,7 @@ class _AddScreenState extends State<AddScreen> {
   void dispose() {
     _priceController.dispose();
     _discountController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -52,7 +55,7 @@ class _AddScreenState extends State<AddScreen> {
       backgroundColor: darkMode ? TColors.black : TColors.white,
       appBar: AppBar(
         title: Text(
-          'Upload New Item',
+          'Add New Request',
           style: TextStyle(
             color: darkMode ? TColors.white : TColors.black,
             fontWeight: FontWeight.bold,
@@ -60,7 +63,13 @@ class _AddScreenState extends State<AddScreen> {
         ),
         backgroundColor: darkMode ? TColors.black : TColors.white,
         elevation: 0,
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: darkMode ? TColors.white : TColors.black,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -78,20 +87,21 @@ class _AddScreenState extends State<AddScreen> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
                 ),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Iconsax.image, size: 40, color: Colors.blue),
-                    SizedBox(height: TSizes.spaceBwItems / 2),
+                    const Icon(Iconsax.image, size: 40, color: Colors.blue),
+                    const SizedBox(height: TSizes.spaceBwItems / 2),
                     Text(
-                      'Upload Product Images',
+                      'Upload Request Images',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
+                        color: darkMode ? TColors.white : TColors.black,
                       ),
                     ),
-                    SizedBox(height: 4),
-                    Text(
+                    const SizedBox(height: 4),
+                    const Text(
                       'Select high-quality photos of your item',
                       style: TextStyle(fontSize: 11, color: Colors.grey),
                     ),
@@ -100,18 +110,30 @@ class _AddScreenState extends State<AddScreen> {
               ),
               const SizedBox(height: TSizes.spaceBwSections),
               TextFormField(
-                decoration: const InputDecoration(
+                style: TextStyle(
+                  color: darkMode ? TColors.white : TColors.black,
+                ),
+                decoration: InputDecoration(
                   labelText: 'Product Name',
-                  prefixIcon: Icon(Iconsax.box),
+                  labelStyle: TextStyle(
+                    color: darkMode ? Colors.white54 : Colors.black54,
+                  ),
+                  prefixIcon: const Icon(Iconsax.box),
                 ),
               ),
               const SizedBox(height: TSizes.spaceBwInputFields),
               DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Category',
-                  prefixIcon: Icon(Iconsax.category),
+                  labelStyle: TextStyle(
+                    color: darkMode ? Colors.white54 : Colors.black54,
+                  ),
+                  prefixIcon: const Icon(Iconsax.category),
                 ),
                 dropdownColor: darkMode ? TColors.black : TColors.white,
+                style: TextStyle(
+                  color: darkMode ? TColors.white : TColors.black,
+                ),
                 items:
                     [
                       'Electronics',
@@ -138,9 +160,15 @@ class _AddScreenState extends State<AddScreen> {
                       controller: _priceController,
                       keyboardType: TextInputType.number,
                       onChanged: (_) => _calculateFinalPrice(),
-                      decoration: const InputDecoration(
+                      style: TextStyle(
+                        color: darkMode ? TColors.white : TColors.black,
+                      ),
+                      decoration: InputDecoration(
                         labelText: 'Price',
-                        prefixIcon: Icon(Iconsax.money_3),
+                        labelStyle: TextStyle(
+                          color: darkMode ? Colors.white54 : Colors.black54,
+                        ),
+                        prefixIcon: const Icon(Iconsax.money_3),
                       ),
                     ),
                   ),
@@ -150,9 +178,15 @@ class _AddScreenState extends State<AddScreen> {
                       controller: _discountController,
                       keyboardType: TextInputType.number,
                       onChanged: (_) => _calculateFinalPrice(),
-                      decoration: const InputDecoration(
+                      style: TextStyle(
+                        color: darkMode ? TColors.white : TColors.black,
+                      ),
+                      decoration: InputDecoration(
                         labelText: 'Discount (%)',
-                        prefixIcon: Icon(Icons.percent),
+                        labelStyle: TextStyle(
+                          color: darkMode ? Colors.white54 : Colors.black54,
+                        ),
+                        prefixIcon: const Icon(Icons.percent),
                       ),
                     ),
                   ),
@@ -197,18 +231,27 @@ class _AddScreenState extends State<AddScreen> {
               const SizedBox(height: TSizes.spaceBwInputFields),
               IntlPhoneField(
                 initialCountryCode: 'EG',
-                dropdownTextStyle: TextStyle(color: darkMode ? Colors.white : Colors.black, fontSize: 16),
+                dropdownTextStyle: TextStyle(
+                  color: darkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                ),
                 style: TextStyle(color: darkMode ? Colors.white : Colors.black),
                 pickerDialogStyle: PickerDialogStyle(
                   backgroundColor: darkMode ? TColors.black : TColors.white,
-                  countryCodeStyle: TextStyle(color: darkMode ? Colors.white : Colors.black),
-                  countryNameStyle: TextStyle(color: darkMode ? Colors.white : Colors.black),
+                  countryCodeStyle: TextStyle(
+                    color: darkMode ? Colors.white : Colors.black,
+                  ),
+                  countryNameStyle: TextStyle(
+                    color: darkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'WhatsApp Number',
-                  prefixIcon: Icon(Iconsax.call),
+                  labelStyle: TextStyle(
+                    color: darkMode ? Colors.white54 : Colors.black54,
+                  ),
+                  prefixIcon: const Icon(Iconsax.call),
                 ),
-                onChanged: (phone) {},
               ),
               const SizedBox(height: TSizes.spaceBwInputFields),
               TextFormField(
@@ -232,38 +275,87 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: TSizes.spaceBwSections * 1.5),
+              const SizedBox(height: TSizes.spaceBwInputFields),
+              Text(
+                'Show request to:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: darkMode ? TColors.white : TColors.black,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  unselectedWidgetColor: darkMode
+                      ? Colors.white54
+                      : Colors.black54,
+                ),
+                child: Column(
+                  children: [
+                    RadioListTile<String>(
+                      title: Text(
+                        'My School Only',
+                        style: TextStyle(
+                          color: darkMode ? TColors.white : TColors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                      value: 'my_school',
+                      groupValue: _schoolScope,
+                      activeColor: Colors.blue,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (value) {
+                        setState(() {
+                          _schoolScope = value!;
+                        });
+                      },
+                    ),
+                    RadioListTile<String>(
+                      title: Text(
+                        'All STEM Schools',
+                        style: TextStyle(
+                          color: darkMode ? TColors.white : TColors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                      value: 'all_schools',
+                      groupValue: _schoolScope,
+                      activeColor: Colors.blue,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (value) {
+                        setState(() {
+                          _schoolScope = value!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: TSizes.spaceBwSections),
               SizedBox(
                 width: double.infinity,
+                height: 50,
                 child: ElevatedButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Request published successfully!'),
+                      ),
+                    );
+                    Navigator.pop(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () {
-                    final NavigationController navigationController =
-                        Get.find();
-                    navigationController.selectedIndex.value = 0;
-
-                    Get.snackbar(
-                      'Success',
-                      'Your product has been uploaded successfully!',
-                      snackPosition: SnackPosition.TOP,
-                      backgroundColor: Colors.green,
-                      colorText: TColors.white,
-                      margin: const EdgeInsets.all(10),
-                      borderRadius: 8,
-                      duration: const Duration(seconds: 3),
-                    );
-                  },
                   child: const Text(
-                    'Add Item',
+                    'Publish Request',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -276,4 +368,3 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 }
-
