@@ -7,7 +7,9 @@ import 'package:stem_shop/common/widgets/custom_shapes/container/primary_header_
 import 'package:stem_shop/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:stem_shop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
+import 'package:stem_shop/data/dummy_data.dart';
 import 'package:stem_shop/data/repositories/authentication_repositrories.dart';
+import 'package:stem_shop/data/repositories/categories/categories_repsitory.dart';
 import 'package:stem_shop/features/personalization/screens/address/address.dart';
 import 'package:stem_shop/features/personalization/screens/cart/cart.dart';
 import 'package:stem_shop/features/personalization/screens/order/order.dart';
@@ -96,6 +98,9 @@ class SettingsScreen extends StatelessWidget {
                     icon: Iconsax.document_upload,
                     title: 'Load Data',
                     subTitle: 'Upload Data to your Cloud Firebase',
+                    onTap: () async {
+                     await CategoryRepository.instance.uploadDummyData(DummyData.categories);
+                    },
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.location,

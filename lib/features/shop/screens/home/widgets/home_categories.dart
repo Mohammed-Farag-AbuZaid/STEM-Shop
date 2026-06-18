@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stem_shop/common/widgets/image_text_widgets/vertical_image_text.dart';

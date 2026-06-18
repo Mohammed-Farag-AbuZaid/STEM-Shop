@@ -5,6 +5,7 @@ import 'package:stem_shop/common/widgets/appbar/tabbar.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/search_container.dart';
 import 'package:stem_shop/common/widgets/product_cart/cart_menu_icon.dart';
 import 'package:stem_shop/features/personalization/controllers/user_controller.dart';
+import 'package:stem_shop/features/shop/controllers/categories_controller.dart';
 import 'package:stem_shop/features/shop/screens/store/category_tap.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
@@ -16,9 +17,10 @@ class StoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categories = CategoriesController.instance.featuredCategories;
     final controller = Get.put(UserController());
     return DefaultTabController(
-      length: 9,
+      length: categories.length,
       child: Scaffold(
         appBar: TAppBar(
           title: Column(
@@ -79,33 +81,13 @@ class StoreScreen extends StatelessWidget {
                   ),
                 ),
                 bottom: TTabBar(
-                  tabs: [
-                    Tab(child: Text("Electronics")),
-                    Tab(child: Text("Equipment")),
-                    Tab(child: Text("Books")),
-                    Tab(child: Text("Study Stuff")),
-                    Tab(child: Text("Materials")),
-                    Tab(child: Text("food")),
-                    Tab(child: Text("sports")),
-                    Tab(child: Text("routers")),
-                    Tab(child: Text("others")),
-                  ],
+                  tabs: categories.map((category) => Tab(child: Text(category.name),)).toList(),
                 ),
               ),
             ];
           },
           body: TabBarView(
-            children: [
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-              TCategoryShowcase(),
-            ],
+            children: categories.map((category) => TCategoryShowcase(category: category)).toList(),
           ),
         ),
       ),
