@@ -5,6 +5,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/primary_header_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/search_container.dart';
 import 'package:stem_shop/common/widgets/layouts/grid_layout.dart';
+import 'package:stem_shop/common/widgets/product/product_card_skeleton.dart';
 import 'package:stem_shop/common/widgets/product/product_card_vertical.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/features/authentication/screens/home/home_appbar.dart';
@@ -71,8 +72,7 @@ class HomeScreen extends StatelessWidget {
                       return TGridLayout(
                         itemCount: 4,
                         mainAxisExtent: 288,
-                        itemBuilder: (_, __) =>
-                            const TProductCardVertical(), // shimmer later
+                        itemBuilder: (_, __) => const TProductCardSkeleton(),
                       );
                     }
 

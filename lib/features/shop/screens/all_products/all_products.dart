@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/layouts/grid_layout.dart';
+import 'package:stem_shop/common/widgets/product/product_card_skeleton.dart';
 import 'package:stem_shop/common/widgets/product/product_card_vertical.dart';
 import 'package:stem_shop/features/shop/controllers/products_controler.dart';
 import 'package:stem_shop/features/shop/models/product_model.dart';
@@ -80,10 +81,10 @@ class _AllProductsState extends State<AllProducts> {
                   }
                 },
                 items: ['Newest', 'Higher Price', 'Lower Price']
-                    .map((option) => DropdownMenuItem(
-                          value: option,
-                          child: Text(option),
-                        ))
+                    .map(
+                      (option) =>
+                          DropdownMenuItem(value: option, child: Text(option)),
+                    )
                     .toList(),
               ),
               const SizedBox(height: TSizes.spaceBwSections),
@@ -95,7 +96,7 @@ class _AllProductsState extends State<AllProducts> {
                 if (products.isEmpty && _controller.paginationLoading.value) {
                   return TGridLayout(
                     itemCount: 6,
-                    itemBuilder: (_, __) => const TProductCardVertical(),
+                    itemBuilder: (_, __) => const TProductCardSkeleton(),
                   );
                 }
 

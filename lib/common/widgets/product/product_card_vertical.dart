@@ -29,7 +29,9 @@ class TProductCardVertical extends StatelessWidget {
     final imagePath = isNetworkImage ? product!.thumbnail : TImages.shopNow;
 
     return GestureDetector(
-      onTap: () => Get.to(() => ProductDetailsScreen()),
+      onTap: product != null
+    ? () => Get.to(() => ProductDetailsScreen(product: product!))
+    : null,
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(5),

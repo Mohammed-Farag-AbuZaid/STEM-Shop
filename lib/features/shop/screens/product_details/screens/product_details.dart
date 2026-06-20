@@ -1,127 +1,95 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/common/widgets/headings/section_heading.dart';
+import 'package:stem_shop/features/shop/models/product_model.dart';
 import 'package:stem_shop/features/shop/screens/product_details/widgets/add_to_cart.dart';
 import 'package:stem_shop/features/shop/screens/product_details/widgets/product_images_slider.dart';
 import 'package:stem_shop/features/shop/screens/product_details/widgets/product_meta_data.dart';
 import 'package:stem_shop/features/shop/screens/product_details/widgets/share_button.dart';
-import 'package:stem_shop/features/shop/screens/product_reviews/product_reviews.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 import 'package:readmore/readmore.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key});
+  const ProductDetailsScreen({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     final isDark = THelperFunctions.isDarkMode(context);
+    final hasDescription = product.description.trim().isNotEmpty;
+
     return Scaffold(
-      bottomNavigationBar: TBottomAddToCart(),
+      bottomNavigationBar: const TBottomAddToCart(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             /// product image and carousel
-            TProductImageSlider(),
+            TProductImageSlider(images: product.images),
 
             /// product details
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 right: TSizes.defaultSpace,
                 left: TSizes.defaultSpace,
                 bottom: TSizes.defaultSpace,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// share button
-                  ShareButton(),
-                  // --- Rating & Share ---
-                  GestureDetector(
-                    onTap: () => Get.to(() => const ProductReviewsScreen()),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            RatingBarIndicator(
-                              rating: 4.5,
-                              itemSize: 20,
-                              unratedColor: TColors.grey,
-                              itemBuilder: (context, index) =>
-                                  const Icon(Icons.star, color: Colors.amber),
-                            ),
-                            const SizedBox(width: TSizes.spaceBwItems / 2),
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: '4.5 ',
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge,
-                                  ),
-                                  TextSpan(
-                                    text: '(150)',
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodyMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 18,
-                          color: Colors.grey,
-                        ),
-                      ],
-                    ),
-                  ),
+                  ShareButton(product: product),
 
-                  /// price, stock and title
-                  ProductMetaData(),
+                  /// price, status and title
+                  ProductMetaData(product: product),
 
                   /// product description
-                  SizedBox(height: TSizes.spaceBwItems),
-                  TSectionHeading(
+                  const SizedBox(height: TSizes.spaceBwItems),
+                  const TSectionHeading(
                     title: 'Description',
                     showActionButton: false,
                   ),
-                  SizedBox(height: TSizes.sm),
+                  const SizedBox(height: TSizes.sm),
                   TCircularContianer(
                     backgroundColor: isDark ? TColors.darkGrey : TColors.grey,
                     borderColor: isDark ? TColors.grey : TColors.darkGrey,
                     showBorder: true,
-
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: ReadMoreText(
-                        style: TextStyle(fontSize: 12),
-                        'Product Description the product description the product description the product description the product description the product description the product description the product description the Product Description the product description the product description the product description the product description the product description the product description the Product Description the product description the product description the product description the product description the product description the product description the Product Description the product description the product description the product description the product description the product description the product description the Product Description the product description the product description the product description the product description the product description the product description the Product Description the product description the product description the product description the product description the product description the product description',
-                        trimLines: 2,
-                        trimMode: TrimMode.Line,
-                        trimCollapsedText: 'Read more',
-                        trimExpandedText: 'Show less',
-                        moreStyle: TextStyle(color: Colors.blue, fontSize: 12),
-                        lessStyle: TextStyle(color: Colors.blue, fontSize: 12),
-                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: hasDescription
+                          ? ReadMoreText(
+                              product.description,
+                              style: const TextStyle(fontSize: 12),
+                              trimLines: 2,
+                              trimMode: TrimMode.Line,
+                              trimCollapsedText: 'Read more',
+                              trimExpandedText: 'Show less',
+                              moreStyle:
+                                  const TextStyle(color: Colors.blue, fontSize: 12),
+                              lessStyle:
+                                  const TextStyle(color: Colors.blue, fontSize: 12),
+                            )
+                          : const Text(
+                              'No description provided.',
+                              style: TextStyle(fontSize: 12),
+                            ),
                     ),
                   ),
 
                   /// set order button
-                  SizedBox(height: TSizes.spaceBwSections),
+                  const SizedBox(height: TSizes.spaceBwSections),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Set Order'),
+                      onPressed: product.status == 'available' ? () {} : null,
+                      child: Text(
+                        product.status == 'available'
+                            ? 'Set Order'
+                            : 'Currently Unavailable',
+                      ),
                     ),
                   ),
                 ],
