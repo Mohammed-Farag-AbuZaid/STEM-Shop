@@ -123,4 +123,22 @@ class UserRepository extends GetxService {
       throw 'Something went wrong while uploading the image: $e';
     }
   }
+
+  /// Fetch user details by user ID
+  Future<UserModel> fetchUserById(String userId) async {
+  try {
+    final documentSnapshot = await _db.collection("users").doc(userId).get();
+    if (documentSnapshot.exists) {
+      return UserModel.fromSnapshot(documentSnapshot);
+    } else {
+      return UserModel.empty();
+    }
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+  } on FormatException catch (_) {
+    throw const TFormatException();
+  } catch (e) {
+    throw 'Something went wrong. Please try again';
+  }
+}
 }

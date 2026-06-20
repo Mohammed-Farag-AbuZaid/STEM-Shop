@@ -15,6 +15,7 @@ class TProductActionsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canEdit = product.status != 'sold';
     final canMarkSold = product.status == 'available' && product.quantity > 0;
 
     return PopupMenuButton<TProductAction>(
@@ -22,16 +23,17 @@ class TProductActionsMenu extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       onSelected: onAction,
       itemBuilder: (context) => [
-        const PopupMenuItem(
-          value: TProductAction.edit,
-          child: Row(
-            children: [
-              Icon(Icons.edit_outlined, color: Colors.blue, size: 18),
-              SizedBox(width: 8),
-              Text('Edit'),
-            ],
+        if (canEdit)
+          const PopupMenuItem(
+            value: TProductAction.edit,
+            child: Row(
+              children: [
+                Icon(Icons.edit_outlined, color: Colors.blue, size: 18),
+                SizedBox(width: 8),
+                Text('Edit'),
+              ],
+            ),
           ),
-        ),
         if (canMarkSold)
           const PopupMenuItem(
             value: TProductAction.sold,

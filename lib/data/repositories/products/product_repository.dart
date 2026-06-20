@@ -161,4 +161,14 @@ class ProductRepository extends GetxService {
     throw 'Something went wrong. Please try again: $e';
   }
 }
+
+Future<void> updateProduct(ProductModel product) async {
+  try {
+    await _db.collection('products').doc(product.id).set(product.toJson());
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+  } catch (e) {
+    throw 'Something went wrong. Please try again: $e';
+  }
+}
 }

@@ -58,23 +58,22 @@ class _AddScreenState extends State<AddScreen> {
   ) async {
     switch (action) {
       case TProductAction.edit:
-        // NOTE: AddProductScreen doesn't yet support pre-filling from an
-        // existing product — that's the next thing we're building.
-        Get.snackbar(
-          'Coming Soon',
-          'Editing listings isn\'t wired up yet.',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.blue,
-          colorText: Colors.white,
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddProductScreen(existingProduct: product),
+          ),
         );
+        await _loadUserProducts();
+        break;
         break;
 
       case TProductAction.sold:
         try {
-          await ProductRepository.instance.updateProductField(
-            product.id,
-            {'status': 'sold', 'quantity': 0},
-          );
+          await ProductRepository.instance.updateProductField(product.id, {
+            'status': 'sold',
+            'quantity': 0,
+          });
           await _loadUserProducts();
           Get.snackbar(
             'Done',
@@ -109,8 +108,10 @@ class _AddScreenState extends State<AddScreen> {
               ),
               TextButton(
                 onPressed: () => Get.back(result: true),
-                child:
-                    const Text('Delete', style: TextStyle(color: Colors.red)),
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
             ],
           ),
@@ -142,10 +143,7 @@ class _AddScreenState extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TAppBar(
-        title: Text('Your Listings'),
-        showBackArrow: false,
-      ),
+      appBar: const TAppBar(title: Text('Your Listings'), showBackArrow: false),
       body: _isLoading
           ? ListView.separated(
               padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -192,8 +190,7 @@ class _AddScreenState extends State<AddScreen> {
                   final product = _userProducts[index];
                   return TMyListingCard(
                     product: product,
-                    onAction: (action) =>
-                        _handleProductAction(action, product),
+                    onAction: (action) => _handleProductAction(action, product),
                   );
                 },
               ),

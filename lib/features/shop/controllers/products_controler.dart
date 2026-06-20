@@ -4,16 +4,24 @@ import 'package:stem_shop/features/personalization/controllers/user_controller.d
 import 'package:stem_shop/features/shop/models/product_model.dart';
 import 'package:stem_shop/data/repositories/products/product_repository.dart';
 import 'package:stem_shop/utils/popups/loaders.dart';
+import 'package:stem_shop/data/repositories/user/user_model.dart';
+import 'package:stem_shop/data/repositories/user/user_repository.dart';
 
 class ProductController extends GetxController {
   static ProductController get instance => Get.find();
 
   final _repository = Get.find<ProductRepository>();
+  final _userRepository = UserRepository.instance;
 
   final homeProducts = <ProductModel>[].obs;
   final homeLoading = false.obs;
 
   final subcategorySampleCache = <String, List<ProductModel>>{}.obs;
+
+  // seller info cache + state
+  final sellerCache = <String, UserModel>{};
+  final seller = Rx<UserModel?>(null);
+  final sellerLoading = false.obs;
 
   final paginatedProducts = <ProductModel>[].obs;
   final paginationLoading = false.obs;
@@ -23,21 +31,45 @@ class ProductController extends GetxController {
 
   String get _schoolId => UserController.instance.user.value.stemSchool;
 
- @override
-void onInit() {
-  super.onInit();
-  final user = UserController.instance.user;
-  
-  if (user.value.stemSchool.isNotEmpty) {
-    fetchHomeProducts();
-  } else {
-    ever(user, (u) {
-      if (u.stemSchool.isNotEmpty && homeProducts.isEmpty) {
-        fetchHomeProducts();
-      }
-    });
+  @override
+  void onInit() {
+    super.onInit();
+    final user = UserController.instance.user;
+
+    if (user.value.stemSchool.isNotEmpty) {
+      fetchHomeProducts();
+    } else {
+      ever(user, (u) {
+        if (u.stemSchool.isNotEmpty && homeProducts.isEmpty) {
+          fetchHomeProducts();
+        }
+      });
+    }
   }
-}
+
+  Future<void> loadSeller(String sellerId) async {
+    if (sellerId.isEmpty) {
+      seller.value = null;
+      return;
+    }
+
+    if (sellerCache.containsKey(sellerId)) {
+      seller.value = sellerCache[sellerId];
+      return;
+    }
+
+    try {
+      sellerLoading.value = true;
+      final user = await _userRepository.fetchUserById(sellerId);
+      sellerCache[sellerId] = user;
+      seller.value = user;
+    } catch (e) {
+      seller.value = UserModel.empty();
+      TLoaders.errorSnackBar(title: 'Error', message: e.toString());
+    } finally {
+      sellerLoading.value = false;
+    }
+  }
 
   Future<void> fetchHomeProducts() async {
     try {

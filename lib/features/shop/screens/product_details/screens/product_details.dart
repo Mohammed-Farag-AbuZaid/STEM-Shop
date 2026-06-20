@@ -46,7 +46,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   ProductMetaData(product: product),
 
                   /// product description
-                  const SizedBox(height: TSizes.spaceBwItems),
+                  const SizedBox(height: TSizes.spaceBwItems * 2),
                   const TSectionHeading(
                     title: 'Description',
                     showActionButton: false,
@@ -82,7 +82,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBwSections),
                   SizedBox(
                     width: double.infinity,
-                    height: 50,
+                    height: 70,
                     child: ElevatedButton(
                       onPressed: product.status == 'available' ? () {} : null,
                       child: Text(
