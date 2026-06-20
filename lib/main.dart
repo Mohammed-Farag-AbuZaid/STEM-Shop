@@ -5,8 +5,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:stem_shop/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:stem_shop/data/repositories/authentication_repositrories.dart';
+import 'package:stem_shop/data/repositories/products/product_repository.dart';
 import 'package:stem_shop/data/repositories/user/user_repository.dart';
 import 'package:stem_shop/features/personalization/controllers/user_controller.dart';
+import 'package:stem_shop/features/shop/controllers/products_controler.dart';
 
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -23,8 +25,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((FirebaseApp value) {
     Get.put(AuthenticationRepository());
-    Get.put(UserRepository()); 
-    Get.put(UserController());           // ← added
+    Get.put(UserRepository());
+    Get.put(UserController());
+    Get.put(ProductRepository());
+    Get.put(ProductController());
   });
 
   runApp(const App());

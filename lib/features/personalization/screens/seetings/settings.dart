@@ -9,7 +9,7 @@ import 'package:stem_shop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/data/dummy_data.dart';
 import 'package:stem_shop/data/repositories/authentication_repositrories.dart';
-import 'package:stem_shop/data/repositories/categories/categories_repsitory.dart';
+import 'package:stem_shop/data/repositories/products/product_repository.dart';
 import 'package:stem_shop/features/personalization/screens/address/address.dart';
 import 'package:stem_shop/features/personalization/screens/cart/cart.dart';
 import 'package:stem_shop/features/personalization/screens/order/order.dart';
@@ -98,22 +98,22 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: TSizes.spaceBwItems),
                   TSettingsMenuTile(
-                    icon: Iconsax.document_upload,
-                    title: 'Load Data',
-                    subTitle: 'Upload Data to your Cloud Firebase',
+                    icon: Iconsax.box,
+                    title: 'Load Products',
+                    subTitle: 'Upload sample products to Firebase',
                     onTap: () async {
                       TFuelScreenLoader.openLoadingDialog(
-                        'Uploading categories...',
+                        'Uploading products...',
                         TImages.loading,
                       );
                       try {
-                        await CategoryRepository.instance.uploadDummyData(
-                          DummyData.categories,
+                        await ProductRepository.instance.uploadDummyData(
+                          DummyData.products,
                         );
                         TFuelScreenLoader.stopLoading();
                         TLoaders.successSnackBar(
                           title: 'Success',
-                          message: 'Categories uploaded successfully!',
+                          message: 'Products uploaded successfully!',
                         );
                       } catch (e) {
                         TFuelScreenLoader.stopLoading();

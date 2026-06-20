@@ -42,14 +42,21 @@ class CategoriesController extends GetxController {
     } catch (e) {
       TLoaders.errorSnackBar(title: 'Error', message: e.toString());
     } finally {
-      /// Hide Loader
       isLoading.value = false;
     }
   }
 
+  final subcategoryCache = <String, List<CategoryModel>>{}.obs;
+
   Future<List<CategoryModel>> getSubCategories(String categoryId) async {
+    if (subcategoryCache.containsKey(categoryId)) {
+      return subcategoryCache[categoryId]!;
+    }
+
     try {
-      return await _categoryRepository.getSubCategories(categoryId);
+      final subs = await _categoryRepository.getSubCategories(categoryId);
+      subcategoryCache[categoryId] = subs;
+      return subs;
     } catch (e) {
       TLoaders.errorSnackBar(title: 'Error', message: e.toString());
       return [];

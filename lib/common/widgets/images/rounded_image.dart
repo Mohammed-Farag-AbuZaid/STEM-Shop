@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
+import 'package:stem_shop/utils/constants/image_strings.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
 class TRoundedImage extends StatelessWidget {
@@ -15,7 +16,7 @@ class TRoundedImage extends StatelessWidget {
     this.padding,
     this.isNetworkImage = false,
     this.onPressed,
-    this.backgroundColor = TColors.light, 
+    this.backgroundColor = TColors.light,
   });
 
   final String imagePath;
@@ -30,6 +31,13 @@ class TRoundedImage extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color backgroundColor;
 
+ImageProvider _resolveImage(String path) {
+  if (path.isEmpty) return AssetImage(TImages.shopNow);
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return NetworkImage(path);
+  }
+  return AssetImage(path);
+}
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -44,9 +52,11 @@ class TRoundedImage extends StatelessWidget {
         ),
         padding: padding,
         child: ClipRRect(
-          borderRadius: applyImageRadius ? BorderRadius.circular(borderRadius) : BorderRadius.zero,
+          borderRadius: applyImageRadius
+              ? BorderRadius.circular(borderRadius)
+              : BorderRadius.zero,
           child: Image(
-            image: isNetworkImage ? NetworkImage(imagePath) : AssetImage(imagePath) as ImageProvider,
+            image: _resolveImage(imagePath),
             fit: fit,
             width: width,
             height: height,
@@ -56,4 +66,3 @@ class TRoundedImage extends StatelessWidget {
     );
   }
 }
-

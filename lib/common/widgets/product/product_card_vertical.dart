@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/shadows.dart';
 import 'package:stem_shop/common/widgets/images/rounded_image.dart';
+import 'package:stem_shop/features/shop/models/product_model.dart';
 import 'package:stem_shop/features/shop/screens/product_details/screens/product_details.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/image_strings.dart';
@@ -12,17 +13,26 @@ import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
 class TProductCardVertical extends StatelessWidget {
-  const TProductCardVertical({super.key});
+  const TProductCardVertical({super.key, this.product});
+
+  final ProductModel? product;
 
   @override
   Widget build(BuildContext context) {
     final bool isDark = THelperFunctions.isDarkMode(context);
 
+    // Use real data if product is provided, fall back to placeholders
+    final title = product?.title ?? 'Product Name';
+    final description = product?.description ?? 'Description of the product';
+    final price = product != null ? 'EGP ${product!.price.toStringAsFixed(0)}' : '\$100';
+    final isNetworkImage = product?.thumbnail.isNotEmpty ?? false;
+    final imagePath = isNetworkImage ? product!.thumbnail : TImages.shopNow;
+
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetailsScreen()),
       child: Container(
         width: 180,
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(TSizes.productImageRadius),
           boxShadow: [TShadowStyle.verticalProductShadow],
@@ -33,62 +43,75 @@ class TProductCardVertical extends StatelessWidget {
           children: [
             TCircularContianer(
               height: 150,
-              padding: EdgeInsets.all(TSizes.sm),
+              padding: const EdgeInsets.all(TSizes.sm),
               backgroundColor: isDark ? TColors.dark : TColors.light,
               borderRadius: TSizes.productImageRadius,
               child: Stack(
                 children: [
                   TRoundedImage(
-                    imagePath: TImages.shopNow,
+                    imagePath: imagePath,
+                    isNetworkImage: isNetworkImage,
                     applyImageRadius: true,
                   ),
-                  Positioned(
-                    top: 9,
-                    left: 9,
-                    child: TCircularContianer(
-                      backgroundColor: TColors.secondry.withValues(alpha: 0.8),
-                      borderRadius: TSizes.productImageRadius,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: TSizes.sm,
-                        vertical: TSizes.xs,
-                      ),
-                      child: Text(
-                        "20%",
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelLarge!.apply(color: TColors.black),
+                  // Condition badge — 'new', 'like_new', 'used'
+                  if (product != null)
+                    Positioned(
+                      top: 9,
+                      left: 9,
+                      child: TCircularContianer(
+                        backgroundColor: TColors.secondry.withValues(alpha: 0.8),
+                        borderRadius: TSizes.productImageRadius,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: TSizes.sm,
+                          vertical: TSizes.xs,
+                        ),
+                        child: Text(
+                          product!.condition == 'new'
+                              ? 'New'
+                              : product!.condition == 'like_new'
+                                  ? 'Like New'
+                                  : 'Used',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .apply(color: TColors.black),
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
-            SizedBox(height: TSizes.spaceBwItems),
+            const SizedBox(height: TSizes.spaceBwItems),
             Padding(
-              padding: EdgeInsets.only(left: TSizes.sm),
+              padding: const EdgeInsets.only(left: TSizes.sm),
               child: Text(
-                "Product Name",
+                title,
                 style: Theme.of(context).textTheme.labelLarge,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 textAlign: TextAlign.start,
-              ),),
+              ),
+            ),
             Padding(
-              padding: EdgeInsets.only(left: TSizes.sm, top: TSizes.xs),
-              child: Text('description of the product, here should be a longer description', style: Theme.of(context).textTheme.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)
-            )
-            ,
-            Spacer(),
+              padding: const EdgeInsets.only(left: TSizes.sm, top: TSizes.xs),
+              child: Text(
+                description,
+                style: Theme.of(context).textTheme.labelMedium,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+              ),
+            ),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "\$100",
+                  price,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-
                 Container(
                   decoration: BoxDecoration(
                     color: TColors.dark,
@@ -100,8 +123,8 @@ class TProductCardVertical extends StatelessWidget {
                   child: SizedBox(
                     width: TSizes.iconLg * 1.2,
                     height: TSizes.iconLg * 1.2,
-                    child: Center(
-                      child: const Icon(Iconsax.add, color: TColors.white),
+                    child: const Center(
+                      child: Icon(Iconsax.add, color: TColors.white),
                     ),
                   ),
                 ),

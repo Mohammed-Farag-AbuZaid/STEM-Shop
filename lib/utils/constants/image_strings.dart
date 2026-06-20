@@ -21,9 +21,8 @@ class TImages {
 
   // bnnner
   static const String tfLogo = "assets/images/banner/tf.png";
-  static const String request = "assets/images/banner/shop.png";
-  static const String shopNow = "assets/images/banner/request.png";
-
+  static const String request = "assets/images/banner/request.png";
+  static const String shopNow = "assets/images/banner/shop.png";
   // navigation bar icons
   static const String home = "assets/images/navigationbar/Home_white.png";
   static const String buy = "assets/images/navigationbar/Buy_white.png";
