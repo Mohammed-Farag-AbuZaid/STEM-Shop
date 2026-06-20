@@ -5,17 +5,21 @@ import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/layouts/grid_layout.dart';
 import 'package:stem_shop/common/widgets/product/product_card_vertical.dart';
 import 'package:stem_shop/features/shop/controllers/products_controler.dart';
+import 'package:stem_shop/features/shop/models/category_model.dart';
 import 'package:stem_shop/features/shop/models/product_model.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
+import 'package:stem_shop/common/widgets/product/product_card_skeleton.dart';
 
-class AllProducts extends StatefulWidget {
-  const AllProducts({super.key});
+class SubCategoriesScreen extends StatefulWidget {
+  const SubCategoriesScreen({super.key, required this.subCategory});
+
+  final CategoryModel subCategory;
 
   @override
-  State<AllProducts> createState() => _AllProductsState();
+  State<SubCategoriesScreen> createState() => _SubCategoriesScreenState();
 }
 
-class _AllProductsState extends State<AllProducts> {
+class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
   final _scrollController = ScrollController();
   final _controller = ProductController.instance;
   String _selectedSort = 'Newest';
@@ -38,9 +42,13 @@ class _AllProductsState extends State<AllProducts> {
   }
 
   @override
+  @override
   void initState() {
     super.initState();
-    _controller.startPagination();
+    // Clear previous pagination data immediately
+    _controller.paginatedProducts.clear();
+    _controller.hasMoreProducts.value = true;
+    _controller.startPagination(subCategoryId: widget.subCategory.id);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
@@ -58,8 +66,8 @@ class _AllProductsState extends State<AllProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TAppBar(
-        title: Text('Popular Products'),
+      appBar: TAppBar(
+        title: Text(widget.subCategory.name),
         showBackArrow: true,
       ),
       body: SingleChildScrollView(
@@ -80,10 +88,10 @@ class _AllProductsState extends State<AllProducts> {
                   }
                 },
                 items: ['Newest', 'Higher Price', 'Lower Price']
-                    .map((option) => DropdownMenuItem(
-                          value: option,
-                          child: Text(option),
-                        ))
+                    .map(
+                      (option) =>
+                          DropdownMenuItem(value: option, child: Text(option)),
+                    )
                     .toList(),
               ),
               const SizedBox(height: TSizes.spaceBwSections),
@@ -95,7 +103,7 @@ class _AllProductsState extends State<AllProducts> {
                 if (products.isEmpty && _controller.paginationLoading.value) {
                   return TGridLayout(
                     itemCount: 6,
-                    itemBuilder: (_, __) => const TProductCardVertical(),
+                    itemBuilder: (_, __) => const TProductCardSkeleton(),
                   );
                 }
 
@@ -103,7 +111,7 @@ class _AllProductsState extends State<AllProducts> {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.all(TSizes.defaultSpace),
-                      child: Text('No products available in your school yet.'),
+                      child: Text('No products in this subcategory yet.'),
                     ),
                   );
                 }
