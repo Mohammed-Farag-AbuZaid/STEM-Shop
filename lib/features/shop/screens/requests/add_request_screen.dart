@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:stem_shop/navigation_menu.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';

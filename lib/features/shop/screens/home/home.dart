@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                       return TGridLayout(
                         itemCount: 4,
                         mainAxisExtent: 288,
-                        itemBuilder: (_, __) => const TProductCardSkeleton(),
+                        itemBuilder: (_, _) => const TProductCardSkeleton(),
                       );
                     }
 

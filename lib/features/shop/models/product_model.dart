@@ -36,47 +36,84 @@ class ProductModel {
   });
 
   static ProductModel empty() => ProductModel(
-        id: '',
-        sellerId: '',
-        schoolId: '',
-        title: '',
-        description: '',
-        price: 0.0,
-        marketPrice: 0.0,
-        quantity: 0,
-        images: [],
-        categoryId: '',
-        subCategoryId: '',
-        condition: 'used',
-        status: 'available',
-        createdAt: DateTime.now(),
-        onlineLink: null,
-      );
+    id: '',
+    sellerId: '',
+    schoolId: '',
+    title: '',
+    description: '',
+    price: 0.0,
+    marketPrice: 0.0,
+    quantity: 0,
+    images: [],
+    categoryId: '',
+    subCategoryId: '',
+    condition: 'used',
+    status: 'available',
+    createdAt: DateTime.now(),
+    onlineLink: null,
+  );
+
+  ProductModel copyWith({
+    String? id,
+    String? sellerId,
+    String? schoolId,
+    String? title,
+    String? description,
+    double? price,
+    double? marketPrice,
+    int? quantity,
+    List<String>? images,
+    String? categoryId,
+    String? subCategoryId,
+    String? condition,
+    String? status,
+    DateTime? createdAt,
+    String? onlineLink,
+  }) {
+    return ProductModel(
+      id: id ?? this.id,
+      sellerId: sellerId ?? this.sellerId,
+      schoolId: schoolId ?? this.schoolId,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      marketPrice: marketPrice ?? this.marketPrice,
+      quantity: quantity ?? this.quantity,
+      images: images ?? this.images,
+      categoryId: categoryId ?? this.categoryId,
+      subCategoryId: subCategoryId ?? this.subCategoryId,
+      condition: condition ?? this.condition,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      onlineLink: onlineLink ?? this.onlineLink,
+    );
+  }
 
   String get thumbnail => images.isNotEmpty ? images.first : '';
 
   bool get hasOnlineLink => onlineLink != null && onlineLink!.isNotEmpty;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'sellerId': sellerId,
-        'schoolId': schoolId,
-        'title': title,
-        'description': description,
-        'price': price,
-        'marketPrice': marketPrice,
-        'quantity': quantity,
-        'images': images,
-        'categoryId': categoryId,
-        'subCategoryId': subCategoryId,
-        'condition': condition,
-        'status': status,
-        'createdAt': Timestamp.fromDate(createdAt),
-        'onlineLink': onlineLink,
-      };
+    'id': id,
+    'sellerId': sellerId,
+    'schoolId': schoolId,
+    'title': title,
+    'description': description,
+    'price': price,
+    'marketPrice': marketPrice,
+    'quantity': quantity,
+    'images': images,
+    'categoryId': categoryId,
+    'subCategoryId': subCategoryId,
+    'condition': condition,
+    'status': status,
+    'createdAt': Timestamp.fromDate(createdAt),
+    'onlineLink': onlineLink,
+  };
 
   factory ProductModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> doc) {
+    DocumentSnapshot<Map<String, dynamic>> doc,
+  ) {
     if (doc.data() == null) return ProductModel.empty();
     final data = doc.data()!;
     return ProductModel(
@@ -99,7 +136,8 @@ class ProductModel {
   }
 
   factory ProductModel.fromQuerySnapshot(
-      QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+    QueryDocumentSnapshot<Map<String, dynamic>> doc,
+  ) {
     return ProductModel.fromSnapshot(doc);
   }
 }

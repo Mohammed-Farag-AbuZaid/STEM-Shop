@@ -1,4 +1,3 @@
-import 'dart:isolate';
 
 import 'package:get/get.dart';
 import 'package:stem_shop/data/repositories/categories/categories_repsitory.dart';

@@ -7,9 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:stem_shop/data/repositories/authentication_repositrories.dart';
 import 'package:stem_shop/data/repositories/products/product_repository.dart';
 import 'package:stem_shop/data/repositories/user/user_repository.dart';
+import 'package:stem_shop/data/services/cloudinary_storage_service.dart';
 import 'package:stem_shop/features/personalization/controllers/user_controller.dart';
 import 'package:stem_shop/features/shop/controllers/products_controler.dart';
-
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -29,6 +29,7 @@ Future<void> main() async {
     Get.put(UserController());
     Get.put(ProductRepository());
     Get.put(ProductController());
+    Get.put(TCloudinaryService());
   });
 
   runApp(const App());

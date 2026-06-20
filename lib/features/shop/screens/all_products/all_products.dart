@@ -71,7 +71,7 @@ class _AllProductsState extends State<AllProducts> {
             children: [
               /// Sort Dropdown
               DropdownButtonFormField<String>(
-                value: _selectedSort,
+                initialValue: _selectedSort,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Iconsax.sort),
                 ),
@@ -96,7 +96,7 @@ class _AllProductsState extends State<AllProducts> {
                 if (products.isEmpty && _controller.paginationLoading.value) {
                   return TGridLayout(
                     itemCount: 6,
-                    itemBuilder: (_, __) => const TProductCardSkeleton(),
+                    itemBuilder: (_, _) => const TProductCardSkeleton(),
                   );
                 }
 

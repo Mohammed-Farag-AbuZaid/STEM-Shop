@@ -78,7 +78,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
             children: [
               /// Sort Dropdown
               DropdownButtonFormField<String>(
-                value: _selectedSort,
+                initialValue: _selectedSort,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Iconsax.sort),
                 ),
@@ -103,7 +103,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                 if (products.isEmpty && _controller.paginationLoading.value) {
                   return TGridLayout(
                     itemCount: 6,
-                    itemBuilder: (_, __) => const TProductCardSkeleton(),
+                    itemBuilder: (_, _) => const TProductCardSkeleton(),
                   );
                 }
 

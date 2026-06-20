@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
-import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
 class RequestDetailScreen extends StatelessWidget {
   final Map<String, String> request;

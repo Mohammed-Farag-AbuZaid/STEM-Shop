@@ -32,6 +32,7 @@ class TCategoryShowcase extends StatelessWidget {
             if (index < subCategories.length) {
               return TSubCategoryShowcase(subCategory: subCategories[index]);
             }
+            return null;
             // Last item: suggested products section
            
           },

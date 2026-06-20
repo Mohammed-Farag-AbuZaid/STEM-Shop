@@ -11,10 +11,7 @@ class ProductRepository extends GetxService {
   Future<void> uploadDummyData(List<ProductModel> products) async {
     try {
       for (var product in products) {
-        await _db
-            .collection('products')
-            .doc(product.id)
-            .set(product.toJson());
+        await _db.collection('products').doc(product.id).set(product.toJson());
       }
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -23,65 +20,65 @@ class ProductRepository extends GetxService {
     }
   }
 
-Future<(List<ProductModel>, DocumentSnapshot?)> fetchProductsBySchool({
-  required String schoolId,
-  int limit = 10,
-  DocumentSnapshot? lastDocument,
-}) async {
-  try {
-    var query = _db
-        .collection('products')
-        .where('schoolId', isEqualTo: schoolId)
-        .where('status', isEqualTo: 'available')
-        .orderBy('createdAt', descending: true)
-        .limit(limit);
+  Future<(List<ProductModel>, DocumentSnapshot?)> fetchProductsBySchool({
+    required String schoolId,
+    int limit = 10,
+    DocumentSnapshot? lastDocument,
+  }) async {
+    try {
+      var query = _db
+          .collection('products')
+          .where('schoolId', isEqualTo: schoolId)
+          .where('status', isEqualTo: 'available')
+          .orderBy('createdAt', descending: true)
+          .limit(limit);
 
-    if (lastDocument != null) query = query.startAfterDocument(lastDocument);
+      if (lastDocument != null) query = query.startAfterDocument(lastDocument);
 
-    final snapshot = await query.get();
-    final products = snapshot.docs
-        .map((doc) => ProductModel.fromQuerySnapshot(doc))
-        .toList();
+      final snapshot = await query.get();
+      final products = snapshot.docs
+          .map((doc) => ProductModel.fromQuerySnapshot(doc))
+          .toList();
 
-    final lastDoc = snapshot.docs.isNotEmpty ? snapshot.docs.last : null;
-    return (products, lastDoc);
-  } on FirebaseException catch (e) {
-    throw TFirebaseException(e.code).message;
-  } catch (e) {
-    throw 'Something went wrong. Please try again: $e';
+      final lastDoc = snapshot.docs.isNotEmpty ? snapshot.docs.last : null;
+      return (products, lastDoc);
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again: $e';
+    }
   }
-}
 
-Future<(List<ProductModel>, DocumentSnapshot?)> fetchProductsBySubCategory({
-  required String schoolId,
-  required String subCategoryId,
-  int limit = 10,
-  DocumentSnapshot? lastDocument,
-}) async {
-  try {
-    var query = _db
-        .collection('products')
-        .where('schoolId', isEqualTo: schoolId)
-        .where('subCategoryId', isEqualTo: subCategoryId)
-        .where('status', isEqualTo: 'available')
-        .orderBy('createdAt', descending: true)
-        .limit(limit);
+  Future<(List<ProductModel>, DocumentSnapshot?)> fetchProductsBySubCategory({
+    required String schoolId,
+    required String subCategoryId,
+    int limit = 10,
+    DocumentSnapshot? lastDocument,
+  }) async {
+    try {
+      var query = _db
+          .collection('products')
+          .where('schoolId', isEqualTo: schoolId)
+          .where('subCategoryId', isEqualTo: subCategoryId)
+          .where('status', isEqualTo: 'available')
+          .orderBy('createdAt', descending: true)
+          .limit(limit);
 
-    if (lastDocument != null) query = query.startAfterDocument(lastDocument);
+      if (lastDocument != null) query = query.startAfterDocument(lastDocument);
 
-    final snapshot = await query.get();
-    final products = snapshot.docs
-        .map((doc) => ProductModel.fromQuerySnapshot(doc))
-        .toList();
+      final snapshot = await query.get();
+      final products = snapshot.docs
+          .map((doc) => ProductModel.fromQuerySnapshot(doc))
+          .toList();
 
-    final lastDoc = snapshot.docs.isNotEmpty ? snapshot.docs.last : null;
-    return (products, lastDoc);
-  } on FirebaseException catch (e) {
-    throw TFirebaseException(e.code).message;
-  } catch (e) {
-    throw 'Something went wrong. Please try again: $e';
+      final lastDoc = snapshot.docs.isNotEmpty ? snapshot.docs.last : null;
+      return (products, lastDoc);
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again: $e';
+    }
   }
-}
 
   Future<List<ProductModel>> fetchSubCategorySample({
     required String schoolId,
@@ -105,4 +102,63 @@ Future<(List<ProductModel>, DocumentSnapshot?)> fetchProductsBySubCategory({
       throw 'Something went wrong. Please try again: $e';
     }
   }
+
+  /// uploads a new product to the Firestore database.
+  Future<String> addProduct(ProductModel product) async {
+    try {
+      final docRef = _db.collection('products').doc();
+      final newProduct = product.copyWith(id: docRef.id);
+      await docRef.set(newProduct.toJson());
+      return docRef.id;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again: $e';
+    }
+  }
+
+  /// Fetch all products listed by a specific seller
+  Future<List<ProductModel>> fetchUserProducts({
+    required String sellerId,
+  }) async {
+    try {
+      final snapshot = await _db
+          .collection('products')
+          .where('sellerId', isEqualTo: sellerId)
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      return snapshot.docs
+          .map((doc) => ProductModel.fromQuerySnapshot(doc))
+          .toList();
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again: $e';
+    }
+  }
+
+  /// Update product status or quantity
+  Future<void> updateProductField(
+    String productId,
+    Map<String, dynamic> fields,
+  ) async {
+    try {
+      await _db.collection('products').doc(productId).update(fields);
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again: $e';
+    }
+  }
+
+  Future<void> deleteProduct(String productId) async {
+  try {
+    await _db.collection('products').doc(productId).delete();
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+  } catch (e) {
+    throw 'Something went wrong. Please try again: $e';
+  }
+}
 }

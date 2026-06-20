@@ -5,7 +5,6 @@ import 'package:stem_shop/features/personalization/screens/seetings/settings.dar
 import 'package:stem_shop/features/shop/screens/add/add.dart';
 import 'package:stem_shop/features/shop/screens/requests/requests_screens.dart.dart';
 import 'package:stem_shop/features/shop/screens/home/home.dart';
-import 'package:stem_shop/features/shop/screens/product_details/screens/product_details.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/features/shop/screens/store/store.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';

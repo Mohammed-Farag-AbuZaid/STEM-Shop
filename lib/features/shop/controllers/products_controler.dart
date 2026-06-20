@@ -74,8 +74,9 @@ void onInit() {
 
   Future<void> startPagination({String? subCategoryId}) async {
     if (_activePaginationSubCategoryId == subCategoryId &&
-        paginatedProducts.isNotEmpty)
+        paginatedProducts.isNotEmpty) {
       return;
+    }
 
     _activePaginationSubCategoryId = subCategoryId;
     _lastDocument = null;
