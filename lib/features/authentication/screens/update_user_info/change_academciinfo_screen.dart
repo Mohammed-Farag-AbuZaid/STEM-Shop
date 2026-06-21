@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
+import 'package:stem_shop/common/widgets/buttons/visit_tf_button.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ChangeAcademicInfo extends StatelessWidget {
   const ChangeAcademicInfo({super.key, this.title = 'Change Academic Info', this.description = 'This action cannot be done from here, you can change your Academic Info from the TF-Unions website'});
@@ -31,19 +31,12 @@ class ChangeAcademicInfo extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBwSections),
 
 
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () async {
-                  final uri = Uri.parse('https://tf-unions.netlify.app/');
-                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                },
-                child: const Text('Visit TF-Unions'),
-              ),
-            ),
+            VisitTFButton(),
           ],
         ),
       ),
     );
   }
 }
+
+
