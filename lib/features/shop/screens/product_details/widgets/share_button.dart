@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/features/shop/models/product_model.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
@@ -8,6 +9,15 @@ class ShareButton extends StatelessWidget {
   const ShareButton({super.key, required this.product});
 
   final ProductModel product;
+
+  Future<void> _shareProduct() async {
+    final link = 'stemshop://product/${product.id}';
+
+    final message =
+        'Check out "${product.title}" on STEM Shop \u2014 EGP ${product.price.toStringAsFixed(0)}\n$link';
+
+    await Share.share(message, subject: product.title);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +74,7 @@ class ShareButton extends StatelessWidget {
             ),
           ],
         ),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
+        IconButton(onPressed: _shareProduct, icon: const Icon(Icons.share)),
       ],
     );
   }

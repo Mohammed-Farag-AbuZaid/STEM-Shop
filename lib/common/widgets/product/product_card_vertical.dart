@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/shadows.dart';
 import 'package:stem_shop/common/widgets/images/rounded_image.dart';
+import 'package:stem_shop/features/shop/controllers/cart_controller.dart';
 import 'package:stem_shop/features/shop/models/product_model.dart';
 import 'package:stem_shop/features/shop/screens/product_details/screens/product_details.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
@@ -24,14 +25,16 @@ class TProductCardVertical extends StatelessWidget {
     // Use real data if product is provided, fall back to placeholders
     final title = product?.title ?? 'Product Name';
     final description = product?.description ?? 'Description of the product';
-    final price = product != null ? 'EGP ${product!.price.toStringAsFixed(0)}' : '\$100';
+    final price = product != null
+        ? 'EGP ${product!.price.toStringAsFixed(0)}'
+        : '\$100';
     final isNetworkImage = product?.thumbnail.isNotEmpty ?? false;
     final imagePath = isNetworkImage ? product!.thumbnail : TImages.shopNow;
 
     return GestureDetector(
       onTap: product != null
-    ? () => Get.to(() => ProductDetailsScreen(product: product!))
-    : null,
+          ? () => Get.to(() => ProductDetailsScreen(product: product!))
+          : null,
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(5),
@@ -61,7 +64,9 @@ class TProductCardVertical extends StatelessWidget {
                       top: 9,
                       left: 9,
                       child: TCircularContianer(
-                        backgroundColor: TColors.secondry.withValues(alpha: 0.8),
+                        backgroundColor: TColors.secondry.withValues(
+                          alpha: 0.8,
+                        ),
                         borderRadius: TSizes.productImageRadius,
                         padding: const EdgeInsets.symmetric(
                           horizontal: TSizes.sm,
@@ -71,12 +76,11 @@ class TProductCardVertical extends StatelessWidget {
                           product!.condition == 'new'
                               ? 'New'
                               : product!.condition == 'like_new'
-                                  ? 'Like New'
-                                  : 'Used',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .apply(color: TColors.black),
+                              ? 'Like New'
+                              : 'Used',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelLarge!.apply(color: TColors.black),
                         ),
                       ),
                     ),
@@ -122,11 +126,16 @@ class TProductCardVertical extends StatelessWidget {
                       bottomRight: Radius.circular(TSizes.productImageRadius),
                     ),
                   ),
-                  child: SizedBox(
-                    width: TSizes.iconLg * 1.2,
-                    height: TSizes.iconLg * 1.2,
-                    child: const Center(
-                      child: Icon(Iconsax.add, color: TColors.white),
+                  child: GestureDetector(
+                    onTap: product != null
+                        ? () => CartController.instance.addProduct(product!)
+                        : null,
+                    child: SizedBox(
+                      width: TSizes.iconLg * 1.2,
+                      height: TSizes.iconLg * 1.2,
+                      child: const Center(
+                        child: Icon(Iconsax.add, color: TColors.white),
+                      ),
                     ),
                   ),
                 ),

@@ -171,4 +171,10 @@ Future<void> updateProduct(ProductModel product) async {
     throw 'Something went wrong. Please try again: $e';
   }
 }
+
+Future<ProductModel> fetchProductById(String productId) async {
+  final doc = await _db.collection('products').doc(productId).get();
+  if (!doc.exists) return ProductModel.empty();
+  return ProductModel.fromSnapshot(doc);
+}
 }
