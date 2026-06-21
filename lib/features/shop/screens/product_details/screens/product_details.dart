@@ -61,7 +61,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: TSizes.sm),
                     TCircularContianer(
-                      backgroundColor: isDark ? TColors.darkGrey : TColors.grey,
+                      backgroundColor: TColors.primary.withValues(alpha: 0.05),
                       borderColor: isDark ? TColors.grey : TColors.darkGrey,
                       showBorder: true,
                       child: Padding(
@@ -90,7 +90,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     const SizedBox(height: TSizes.spaceBwSections),
                     SizedBox(
                       width: double.infinity,
-                      height: 50,
+                      height: 60,
                       child: ElevatedButton(
                         onPressed: isAvailable && !controller.placingOrder.value
                             ? () async {

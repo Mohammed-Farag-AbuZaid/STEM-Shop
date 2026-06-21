@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stem_shop/features/shop/controllers/seller_order_controller.dart';
 import 'package:stem_shop/features/shop/models/order_model.dart';
+import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
 class SellerOrderCard extends StatelessWidget {
@@ -29,9 +30,9 @@ class SellerOrderCard extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(TSizes.md),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.orange.withValues(alpha: 0.4)),
+          border: Border.all(color: TColors.grey.withValues(alpha: 0.4)),
           borderRadius: BorderRadius.circular(TSizes.cardRadiusMd),
-          color: Colors.orange.withValues(alpha: 0.04),
+          color: TColors.primary.withValues(alpha: 0.05),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

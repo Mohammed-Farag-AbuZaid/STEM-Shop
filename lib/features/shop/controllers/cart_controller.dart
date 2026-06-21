@@ -26,9 +26,6 @@ class CartController extends GetxController {
 
   bool get isEmpty => items.isEmpty;
 
-  /// Groups cart items by sellerId — this is what checkout iterates over,
-  /// since each seller needs their own stock-reservation transaction and
-  /// their own WhatsApp confirmation message.
   Map<String, List<CartItem>> get groupedBySeller {
     final map = <String, List<CartItem>>{};
     for (final item in items) {
@@ -123,4 +120,5 @@ class CartController extends GetxController {
       items.clear();
     }
   }
+
 }
