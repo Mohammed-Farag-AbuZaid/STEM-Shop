@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,21 +11,27 @@ class UserController extends GetxController {
   final profileLoading = false.obs;
   Rx<UserModel> user = UserModel.empty().obs;
   final userRepository = Get.put(UserRepository());
+
   @override
-  onInit() {
+  void onInit() {
     super.onInit();
-    fetchUserRecord();
+    FirebaseAuth.instance.authStateChanges().listen((firebaseUser) {
+      if (firebaseUser != null) {
+        fetchUserRecord();
+      } else {
+        user(UserModel.empty());
+      }
+    });
   }
 
   Future<void> fetchUserRecord() async {
     try {
       profileLoading.value = true;
-      final user = await userRepository.fetchUserDetails();
-      this.user(user);
-      profileLoading.value = false;
+      final fetchedUser = await userRepository.fetchUserDetails();
+      user(fetchedUser);
     } catch (e) {
       user(UserModel.empty());
-     }finally {
+    } finally {
       profileLoading.value = false;
     }
   }
@@ -68,34 +73,37 @@ class UserController extends GetxController {
   }
 
   Future<void> uploadUserProfilePicture() async {
-  try {
-    final image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 70,
-      maxHeight: 512,
-      maxWidth: 512,
-    );
-    if (image != null) {
-      imageUploading.value = true;
-
-      final imageUrl = await userRepository.uploadImage(
-        'first_unsigned_preset',
-        image,
+    try {
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 70,
+        maxHeight: 512,
+        maxWidth: 512,
       );
-      Map<String, dynamic> json = {'profilePicture': imageUrl};
-      await userRepository.updateSingleField(json);
+      if (image != null) {
+        imageUploading.value = true;
 
-      user.value = user.value.copyWith(profilePicture: imageUrl);
+        final imageUrl = await userRepository.uploadImage(
+          'first_unsigned_preset',
+          image,
+        );
+        Map<String, dynamic> json = {'profilePicture': imageUrl};
+        await userRepository.updateSingleField(json);
 
-      TLoaders.successSnackBar(
-        title: 'Congratulations',
-        message: 'Your Profile Image has been updated!',
+        user.value = user.value.copyWith(profilePicture: imageUrl);
+
+        TLoaders.successSnackBar(
+          title: 'Congratulations',
+          message: 'Your Profile Image has been updated!',
+        );
+      }
+    } catch (e) {
+      TLoaders.errorSnackBar(
+        title: 'OhSnap',
+        message: 'Something went wrong: $e',
       );
+    } finally {
+      imageUploading.value = false;
     }
-  } catch (e) {
-    TLoaders.errorSnackBar(title: 'OhSnap', message: 'Something went wrong: $e');
-  } finally {
-    imageUploading.value = false;
   }
-}
 }

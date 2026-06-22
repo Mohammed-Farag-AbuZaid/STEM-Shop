@@ -18,7 +18,7 @@ class OnBoardingDotNavigation extends StatelessWidget {
       bottom: TDeviceUtils.getBottomNavigationBarHeight() + 25,
       left: TSizes.defaultSpace,
       child: SmoothPageIndicator(
-        count: 2,
+        count: 3,
         controller: controller.pageController,
         onDotClicked: controller.dotNavigationClicked,
 

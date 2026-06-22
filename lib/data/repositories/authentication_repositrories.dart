@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -7,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stem_shop/features/authentication/controllers/login/email_verification.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
 import 'package:stem_shop/features/authentication/screens/onBoarding/onboarding.dart';
+import 'package:stem_shop/features/authentication/screens/update_user_info/change_academciinfo_screen.dart';
 import 'package:stem_shop/navigation_menu.dart';
 import 'package:stem_shop/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:stem_shop/utils/exceptions/firebase_exceptions.dart';
@@ -35,23 +37,33 @@ class AuthenticationRepository extends GetxController {
     if (user != null) {
       // If the user is logged in
       if (user.emailVerified) {
-        // If the user's email is verified, navigate to the main Navigation Menu
-        Get.offAll(() => const NavigationMenu());
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        if (!doc.exists ||
+            (doc.data() ?? {})['stemSchool'] == null ||
+            (doc.data()!['stemSchool'] as String).isEmpty) {
+          Get.offAll(
+            () => const ChangeAcademicInfo(
+              showBackArrow: false,
+              fullMessage: false,
+              title: 'Your Account Setup is Incomplete',
+              description:
+                  'It looks like your account information has not been fully set up yet. This usually happens when you sign in with Google before creating an account on the TF Unions website. Please visit the TF Unions website to complete your registration and account details.',
+            ),
+          );
+        } else {
+          Get.offAll(() => const NavigationMenu());
+        }
       } else {
-        // If the user's email is not verified, navigate to the VerifyEmailScreen
         Get.offAll(() => const EmailVerification());
       }
     } else {
-      // Local Storage
       deviceStorage.writeIfNull('IsFirstTime', true);
-      // Check if it's the first time launching the app
       deviceStorage.read('IsFirstTime') != true
-          ? Get.offAll(
-              () => const LoginScreen(),
-            ) // Redirect to Login Screen if not the first time
-          : Get.offAll(
-              const OnBoardingScreen(),
-            ); // Redirect to OnBoarding Screen if it's the first time
+          ? Get.offAll(() => const LoginScreen())
+          : Get.offAll(const OnBoardingScreen());
     }
   }
 
@@ -105,15 +117,15 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     try {
-      await GoogleSignIn().signOut();
+      try {
+        await GoogleSignIn().signOut();
+      } catch (_) {}
       await FirebaseAuth.instance.signOut();
       Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
     } catch (e) {
       throw 'Something went wrong. Please try again';
     }
@@ -147,6 +159,4 @@ class AuthenticationRepository extends GetxController {
       return null;
     }
   }
-
-
 }
