@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:stem_shop/data/repositories/categories/categories_repsitory.dart';
 import 'package:stem_shop/features/shop/models/category_model.dart';
@@ -17,25 +16,19 @@ class CategoriesController extends GetxController {
     fetchCategories();
   }
 
-  /// load the data
   Future<void> fetchCategories() async {
     try {
-      /// Show Loader
       isLoading.value = true;
 
-      /// Fetch Data
       final categories = await _categoryRepository.getAllCategories();
 
-      /// Update the UI
       allCategories.assignAll(categories);
 
-      /// Filter Featured Categories
       featuredCategories.assignAll(
         allCategories
             .where(
               (category) => category.isFeatured && category.parentId.isEmpty,
             )
-            .take(8)
             .toList(),
       );
     } catch (e) {

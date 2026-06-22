@@ -1,57 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/requests/request_card.dart';
+import 'package:stem_shop/features/shop/controllers/request_controller.dart';
 import 'package:stem_shop/features/shop/screens/requests/add_request_screen.dart';
+import 'package:stem_shop/features/shop/screens/requests/request_card_skeleton.dart';
 import 'package:stem_shop/features/shop/screens/requests/request_detail_screen.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 
 class RequestsScreen extends StatelessWidget {
   const RequestsScreen({super.key});
 
-  String _timeAgo(DateTime date) {
-    final diff = DateTime.now().difference(date);
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    if (diff.inDays == 1) return 'Yesterday';
-    return '${diff.inDays}d ago';
-  }
+  void _showScopeMenu(BuildContext context, Offset tapPosition) async {
+    final controller = RequestsController.instance;
 
-  final List<Map<String, dynamic>> _dummy = const [
-    {
-      'userName': 'Ahmed Ali',
-      'userImage': '',
-      'title': 'Arduino Uno & Breadboard',
-      'category': 'Electronics',
-      'budget': 150.0,
-      'whatsapp': '+201234567890',
-      'desc': 'Need it urgently for our physics project this week. Must be in good condition with all jumper wires included.',
-      'school': 'my_school',
-    },
-    {
-      'userName': 'Sara Mohamed',
-      'userImage': '',
-      'title': 'Capstone Engineering Tools',
-      'category': 'Capstone',
-      'budget': 450.0,
-      'whatsapp': '+201987654321',
-      'desc': 'Looking for a complete soldering iron kit and digital multimeter. Preferable if it includes some solder wire.',
-      'school': 'all_schools',
-    },
-    {
-      'userName': 'Kareem Mahmoud',
-      'userImage': '',
-      'title': 'Physics Olympiad Book Set',
-      'category': 'Books',
-      'budget': 200.0,
-      'whatsapp': '+201122334455',
-      'desc': 'Looking for Irodov and Halliday Resnick. Any edition is fine, just needs to be readable.',
-      'school': 'all_schools',
-    },
-  ];
+    final selected = await showMenu<String>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        tapPosition.dx,
+        tapPosition.dy,
+        tapPosition.dx,
+        tapPosition.dy,
+      ),
+      items: [
+        PopupMenuItem(
+          value: 'school',
+          child: Obx(() => Row(
+                children: [
+                  Icon(
+                    Icons.school_outlined,
+                    size: 18,
+                    color: controller.scopeFilter.value == 'school'
+                        ? Colors.blue
+                        : Colors.grey,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'My School Only',
+                    style: TextStyle(
+                      color: controller.scopeFilter.value == 'school'
+                          ? Colors.blue
+                          : null,
+                      fontWeight: controller.scopeFilter.value == 'school'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                ],
+              )),
+        ),
+        PopupMenuItem(
+          value: 'all',
+          child: Obx(() => Row(
+                children: [
+                  Icon(
+                    Icons.public_outlined,
+                    size: 18,
+                    color: controller.scopeFilter.value == 'all'
+                        ? Colors.blue
+                        : Colors.grey,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'All Schools',
+                    style: TextStyle(
+                      color: controller.scopeFilter.value == 'all'
+                          ? Colors.blue
+                          : null,
+                      fontWeight: controller.scopeFilter.value == 'all'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                ],
+              )),
+        ),
+      ],
+    );
+
+    if (selected != null) {
+      controller.applyScopeFilter(selected);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final controller = RequestsController.instance;
+
     return Scaffold(
       appBar: TAppBar(
         title: Text(
@@ -59,33 +95,74 @@ class RequestsScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.filter_list_sharp),
+          GestureDetector(
+            onTapUp: (details) =>
+                _showScopeMenu(context, details.globalPosition),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Obx(() => Icon(
+                    Icons.filter_list_sharp,
+                    color: controller.scopeFilter.value != 'all'
+                        ? Colors.blue
+                        : null,
+                  )),
+            ),
           ),
         ],
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(TSizes.defaultSpace),
-        itemCount: _dummy.length,
-        separatorBuilder: (_, __) =>
-            const SizedBox(height: TSizes.spaceBwItems),
-        itemBuilder: (context, index) {
-          final r = _dummy[index];
-          return RequestCard(
-            request: r,
-            timeAgo: _timeAgo(
-              DateTime.now().subtract(const Duration(hours: 2)),
-            ),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => RequestDetailScreen(request: r),
-              ),
+      body: Obx(() {
+        if (controller.isLoading.value && controller.requests.isEmpty) {
+          return ListView.separated(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            itemCount: 5,
+            separatorBuilder: (_, __) =>
+                const SizedBox(height: TSizes.spaceBwItems),
+            itemBuilder: (_, __) => const RequestCardSkeleton(),
+          );
+        }
+
+        if (controller.requests.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Iconsax.message_question,
+                    size: 64, color: Colors.grey.withValues(alpha: 0.5)),
+                const SizedBox(height: TSizes.spaceBwItems),
+                Text(
+                  'No requests yet',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: Colors.grey),
+                ),
+              ],
             ),
           );
-        },
-      ),
+        }
+
+        return RefreshIndicator(
+          onRefresh: controller.fetchRequests,
+          child: ListView.separated(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            itemCount: controller.requests.length,
+            separatorBuilder: (_, __) =>
+                const SizedBox(height: TSizes.spaceBwItems),
+            itemBuilder: (context, index) {
+              final request = controller.requests[index];
+              return RequestCard(
+                request: request,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RequestDetailScreen(request: request),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
           context,
@@ -97,4 +174,3 @@ class RequestsScreen extends StatelessWidget {
     );
   }
 }
-

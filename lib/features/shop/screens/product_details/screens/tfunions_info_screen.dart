@@ -22,7 +22,7 @@ class TfUnionsScreen extends StatelessWidget {
             borderRadius: 16,
             backgroundColor: Colors.transparent,
             showBorder: true,
-            borderColor: Colors.grey.withOpacity(0.5),
+            borderColor: Colors.grey.withValues(alpha: 0.5),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
