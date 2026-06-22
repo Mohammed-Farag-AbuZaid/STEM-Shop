@@ -115,9 +115,9 @@ class RequestsScreen extends StatelessWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(TSizes.defaultSpace),
             itemCount: 5,
-            separatorBuilder: (_, __) =>
+            separatorBuilder: (_, _) =>
                 const SizedBox(height: TSizes.spaceBwItems),
-            itemBuilder: (_, __) => const RequestCardSkeleton(),
+            itemBuilder: (_, _) => const RequestCardSkeleton(),
           );
         }
 
@@ -146,7 +146,7 @@ class RequestsScreen extends StatelessWidget {
           child: ListView.separated(
             padding: const EdgeInsets.all(TSizes.defaultSpace),
             itemCount: controller.requests.length,
-            separatorBuilder: (_, __) =>
+            separatorBuilder: (_, _) =>
                 const SizedBox(height: TSizes.spaceBwItems),
             itemBuilder: (context, index) {
               final request = controller.requests[index];

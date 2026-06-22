@@ -8,7 +8,6 @@ import 'package:stem_shop/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:stem_shop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:stem_shop/common/widgets/texts/section_heading.dart';
 import 'package:stem_shop/data/repositories/authentication_repositrories.dart';
-import 'package:stem_shop/features/personalization/screens/address/address.dart';
 import 'package:stem_shop/features/personalization/screens/cart/cart.dart';
 import 'package:stem_shop/features/personalization/screens/order/order.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
@@ -57,12 +56,6 @@ class SettingsScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBwItems),
 
                   TSettingsMenuTile(
-                    icon: Iconsax.safe_home,
-                    title: 'My Addresses',
-                    subTitle: 'Set shopping address',
-                    onTap: () => Get.to(() => const UserAddressScreen()),
-                  ),
-                  TSettingsMenuTile(
                     icon: Iconsax.shopping_cart,
                     title: 'My Cart',
                     subTitle: 'Add, remove products',
@@ -74,12 +67,6 @@ class SettingsScreen extends StatelessWidget {
                     subTitle: 'In-progress and Completed Orders',
                     onTap: () => Get.to(() => const OrderScreen()),
                   ),
-                  TSettingsMenuTile(
-                    icon: Iconsax.notification,
-                    title: 'Notifications',
-                    subTitle: 'Set any kind of notification message',
-                  ),
-
                   const SizedBox(height: TSizes.spaceBwSections),
                   SizedBox(
                     width: double.infinity,

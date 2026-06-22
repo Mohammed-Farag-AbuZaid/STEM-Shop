@@ -15,10 +15,11 @@ class TImages {
   static const String emailSentImage = "assets/images/receive_email.png";
   // -- Onboarding Images
   static const String onBoardingImage1 =
-      "assets/images/on_boarding_images/sammy_Line1.gif";
+      "assets/images/on_boarding_images/create_account.gif";
   static const String onBoardingImage2 =
-      "assets/images/on_boarding_images/sammy_Line2.gif";
-
+      "assets/images/on_boarding_images/sell.gif";
+  static const String onBoardingImage3 =
+      "assets/images/on_boarding_images/shopping.gif";
   // bnnner
   static const String tfLogo = "assets/images/banner/tf.png";
   static const String add = "assets/images/banner/add.png";

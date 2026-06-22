@@ -3,7 +3,6 @@ import 'package:stem_shop/common/widgets/appbar/appbar.dart';
 import 'package:stem_shop/common/widgets/buttons/visit_tf_button.dart';
 import 'package:stem_shop/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class TfUnionsScreen extends StatelessWidget {
   const TfUnionsScreen({super.key});

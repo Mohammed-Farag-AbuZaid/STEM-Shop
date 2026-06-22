@@ -25,7 +25,7 @@ class OnBoardingController extends GetxController {
 
   /// Function to jump to the next page
   void nextPage() {
-    if (currentPageIndex.value == 1) {
+    if (currentPageIndex.value == 2) {
       final storage = GetStorage();
       if (kDebugMode) {
         print('======================= GET STORAGE next Button =======================');
