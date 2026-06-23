@@ -15,7 +15,20 @@ class App extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
       initialBinding: GeneralBindings(),
-      home: const Scaffold(backgroundColor: TColors.primary, body: Center(child: CircularProgressIndicator(color: Colors.white,),),)
+      builder: (context, child) {
+        return Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 880),
+            child: child!,
+          ),
+        );
+      },
+      home: const Scaffold(
+        backgroundColor: TColors.primary,
+        body: Center(child: CircularProgressIndicator(color: Colors.white)),
+      ),
     );
   }
 }
