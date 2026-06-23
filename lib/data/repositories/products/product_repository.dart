@@ -177,4 +177,33 @@ Future<ProductModel> fetchProductById(String productId) async {
   if (!doc.exists) return ProductModel.empty();
   return ProductModel.fromSnapshot(doc);
 }
+
+Future<List<ProductModel>> searchProducts({
+  required String schoolId,
+  required String query,
+  int limit = 20,
+}) async {
+  try {
+    if (query.trim().isEmpty) return [];
+
+    final normalized = query.trim().toLowerCase();
+
+    final snapshot = await _db
+        .collection('products')
+        .where('schoolId', isEqualTo: schoolId)
+        .where('status', isEqualTo: 'available')
+        .where('titleLowercase', isGreaterThanOrEqualTo: normalized)
+        .where('titleLowercase', isLessThan: '$normalized\uf8ff')
+        .limit(limit)
+        .get();
+
+    return snapshot.docs
+        .map((doc) => ProductModel.fromQuerySnapshot(doc))
+        .toList();
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+  } catch (e) {
+    throw 'Something went wrong. Please try again: $e';
+  }
+}
 }

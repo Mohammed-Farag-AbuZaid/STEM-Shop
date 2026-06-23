@@ -5,6 +5,7 @@ class ProductModel {
   final String sellerId;
   final String schoolId;
   final String title;
+  final String titleLowercase;
   final String description;
   final double price;
   final double marketPrice;
@@ -31,33 +32,80 @@ class ProductModel {
     required this.condition,
     required this.status,
     required this.createdAt,
+    this.titleLowercase = '',
     this.quantity = 0,
     this.onlineLink,
   });
 
   static ProductModel empty() => ProductModel(
-    id: '',
-    sellerId: '',
-    schoolId: '',
-    title: '',
-    description: '',
-    price: 0.0,
-    marketPrice: 0.0,
-    quantity: 0,
-    images: [],
-    categoryId: '',
-    subCategoryId: '',
-    condition: 'used',
-    status: 'available',
-    createdAt: DateTime.now(),
-    onlineLink: null,
-  );
+        id: '',
+        sellerId: '',
+        schoolId: '',
+        title: '',
+        titleLowercase: '',
+        description: '',
+        price: 0.0,
+        marketPrice: 0.0,
+        quantity: 0,
+        images: [],
+        categoryId: '',
+        subCategoryId: '',
+        condition: 'used',
+        status: 'available',
+        createdAt: DateTime.now(),
+        onlineLink: null,
+      );
+
+  /// Use this factory everywhere instead of the raw constructor when
+  /// creating a new product — it auto-computes [titleLowercase] so
+  /// the Firestore search query always has the right field to query.
+  factory ProductModel.create({
+    required String id,
+    required String sellerId,
+    required String schoolId,
+    required String title,
+    required String description,
+    required double price,
+    required double marketPrice,
+    required int quantity,
+    required List<String> images,
+    required String categoryId,
+    required String subCategoryId,
+    required String condition,
+    required String status,
+    required DateTime createdAt,
+    String? onlineLink,
+  }) {
+    return ProductModel(
+      id: id,
+      sellerId: sellerId,
+      schoolId: schoolId,
+      title: title,
+      titleLowercase: title.toLowerCase(),
+      description: description,
+      price: price,
+      marketPrice: marketPrice,
+      quantity: quantity,
+      images: images,
+      categoryId: categoryId,
+      subCategoryId: subCategoryId,
+      condition: condition,
+      status: status,
+      createdAt: createdAt,
+      onlineLink: onlineLink,
+    );
+  }
+
+  String get thumbnail => images.isNotEmpty ? images.first : '';
+
+  bool get hasOnlineLink => onlineLink != null && onlineLink!.isNotEmpty;
 
   ProductModel copyWith({
     String? id,
     String? sellerId,
     String? schoolId,
     String? title,
+    String? titleLowercase,
     String? description,
     double? price,
     double? marketPrice,
@@ -70,11 +118,15 @@ class ProductModel {
     DateTime? createdAt,
     String? onlineLink,
   }) {
+    final newTitle = title ?? this.title;
     return ProductModel(
       id: id ?? this.id,
       sellerId: sellerId ?? this.sellerId,
       schoolId: schoolId ?? this.schoolId,
-      title: title ?? this.title,
+      title: newTitle,
+      titleLowercase: titleLowercase ?? (title != null
+          ? newTitle.toLowerCase()
+          : this.titleLowercase),
       description: description ?? this.description,
       price: price ?? this.price,
       marketPrice: marketPrice ?? this.marketPrice,
@@ -89,38 +141,37 @@ class ProductModel {
     );
   }
 
-  String get thumbnail => images.isNotEmpty ? images.first : '';
-
-  bool get hasOnlineLink => onlineLink != null && onlineLink!.isNotEmpty;
-
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'sellerId': sellerId,
-    'schoolId': schoolId,
-    'title': title,
-    'description': description,
-    'price': price,
-    'marketPrice': marketPrice,
-    'quantity': quantity,
-    'images': images,
-    'categoryId': categoryId,
-    'subCategoryId': subCategoryId,
-    'condition': condition,
-    'status': status,
-    'createdAt': Timestamp.fromDate(createdAt),
-    'onlineLink': onlineLink,
-  };
+        'id': id,
+        'sellerId': sellerId,
+        'schoolId': schoolId,
+        'title': title,
+        'titleLowercase': titleLowercase,
+        'description': description,
+        'price': price,
+        'marketPrice': marketPrice,
+        'quantity': quantity,
+        'images': images,
+        'categoryId': categoryId,
+        'subCategoryId': subCategoryId,
+        'condition': condition,
+        'status': status,
+        'createdAt': Timestamp.fromDate(createdAt),
+        'onlineLink': onlineLink,
+      };
 
   factory ProductModel.fromSnapshot(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) {
     if (doc.data() == null) return ProductModel.empty();
     final data = doc.data()!;
+    final title = data['title'] as String? ?? '';
     return ProductModel(
       id: doc.id,
       sellerId: data['sellerId'] ?? '',
       schoolId: data['schoolId'] ?? '',
-      title: data['title'] ?? '',
+      title: title,
+      titleLowercase: data['titleLowercase'] as String? ?? title.toLowerCase(),
       description: data['description'] ?? '',
       price: (data['price'] ?? 0).toDouble(),
       marketPrice: (data['marketPrice'] ?? 0).toDouble(),

@@ -6,6 +6,7 @@ import 'package:stem_shop/common/widgets/custom_shapes/container/search_containe
 import 'package:stem_shop/common/widgets/product_cart/cart_menu_icon.dart';
 import 'package:stem_shop/features/personalization/controllers/user_controller.dart';
 import 'package:stem_shop/features/shop/controllers/categories_controller.dart';
+import 'package:stem_shop/features/shop/screens/search_screan/search_screen.dart';
 import 'package:stem_shop/features/shop/screens/store/category_tap.dart';
 import 'package:stem_shop/utils/constants/colors.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
@@ -74,7 +75,7 @@ class StoreScreen extends StatelessWidget {
                       SizedBox(height: TSizes.defaultSpace),
                       TSearchContainer(
                         text: 'Search products...',
-                        onTap: () {},
+                        onTap: () => Get.to(() => const SearchScreen()),
                         showBackground: false,
                       ),
                     ],

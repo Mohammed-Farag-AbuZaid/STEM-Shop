@@ -13,6 +13,7 @@ import 'package:stem_shop/features/shop/controllers/products_controler.dart';
 import 'package:stem_shop/features/shop/screens/all_products/all_products.dart';
 import 'package:stem_shop/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:stem_shop/features/shop/screens/home/widgets/promo_slider.dart';
+import 'package:stem_shop/features/shop/screens/search_screan/search_screen.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/helpers/helper_functions.dart';
 
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   THomeAppBar(),
                   SizedBox(height: TSizes.spaceBwSections),
-                  TSearchContainer(text: "Search in Store", onTap: () {}),
+                  TSearchContainer(text: "Search in Store", onTap: () => Get.to(() => const SearchScreen())),
                   SizedBox(height: TSizes.spaceBwSections),
                   Padding(
                     padding: const EdgeInsets.only(left: TSizes.defaultSpace),

@@ -38,6 +38,9 @@ class ProductController extends GetxController {
 
   final placingOrder = false.obs;
 
+  final searchResults = <ProductModel>[].obs;
+  final searchLoading = false.obs;
+
   String get _schoolId => UserController.instance.user.value.stemSchool;
 
   @override
@@ -237,4 +240,25 @@ class ProductController extends GetxController {
       placingOrder.value = false;
     }
   }
+
+  Future<void> searchProducts(String query) async {
+  if (query.trim().isEmpty) {
+    searchResults.clear();
+    return;
+  }
+  try {
+    searchLoading.value = true;
+    final results = await _repository.searchProducts(
+      schoolId: _schoolId,
+      query: query,
+    );
+    searchResults.assignAll(results);
+  } catch (e) {
+    TLoaders.errorSnackBar(title: 'Search Error', message: e.toString());
+  } finally {
+    searchLoading.value = false;
+  }
+}
+
+void clearSearch() => searchResults.clear();
 }

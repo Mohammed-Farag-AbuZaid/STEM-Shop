@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,8 +18,6 @@ import 'package:stem_shop/utils/popups/loaders.dart';
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key, this.existingProduct});
 
-  /// When non-null, the screen opens in edit mode, pre-filled from this
-  /// product, and updates it on save instead of creating a new listing.
   final ProductModel? existingProduct;
 
   @override
@@ -49,11 +46,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final List<Uint8List> _pickedImageBytes = [];
   List<String> _existingImageUrls = [];
   bool _isSubmitting = false;
-
   bool _isPrefillLoading = false;
 
   static const int _maxImages = 3;
-  static const int _maxImageSizeBytes = 3 * 1024 * 1024; // 3MB per image
+  static const int _maxImageSizeBytes = 3 * 1024 * 1024;
 
   final _categoriesController = CategoriesController.instance;
 
@@ -88,10 +84,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     final hasDiscount =
         product.marketPrice > product.price && product.marketPrice > 0;
     if (hasDiscount) {
-      final discountPercent = (((product.marketPrice - product.price) /
-                  product.marketPrice) *
-              100)
-          .round();
+      final discountPercent =
+          (((product.marketPrice - product.price) / product.marketPrice) * 100)
+              .round();
       _discountController.text = discountPercent.toString();
     }
 
@@ -102,8 +97,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     CategoryModel? matchedSubCategory;
 
     if (matchedCategory != null) {
-      subCategories =
-          await _categoriesController.getSubCategories(matchedCategory.id);
+      subCategories = await _categoriesController.getSubCategories(
+        matchedCategory.id,
+      );
       matchedSubCategory = _findById(subCategories, product.subCategoryId);
     }
 
@@ -241,6 +237,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() => _isSubmitting = true);
 
     try {
+      // Upload only newly picked images — existing URLs are already on Cloudinary.
       final newImageUrls = <String>[];
       for (final bytes in _pickedImageBytes) {
         final url = await TCloudinaryService.instance.uploadImageData(bytes);
@@ -257,14 +254,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
       final onlineLink = _onlineLinkController.text.trim().isEmpty
           ? null
           : _onlineLinkController.text.trim();
+      final title = _titleController.text.trim();
 
       if (_isEditMode) {
-        final original = widget.existingProduct!;
-        final updated = ProductModel(
-          id: original.id,
-          sellerId: original.sellerId,
-          schoolId: original.schoolId,
-          title: _titleController.text.trim(),
+        final updated = widget.existingProduct!.copyWith(
+          title: title,
           description: _descriptionController.text.trim(),
           price: price,
           marketPrice: marketPrice,
@@ -273,8 +267,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
           categoryId: _selectedCategory!.id,
           subCategoryId: _selectedSubCategory!.id,
           condition: _selectedCondition,
-          status: original.status, // preserved — never changed via edit
-          createdAt: original.createdAt, // preserved
           onlineLink: onlineLink,
         );
 
@@ -289,11 +281,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
       } else {
         final user = UserController.instance.user.value;
 
-        final product = ProductModel(
+        final product = ProductModel.create(
           id: '',
           sellerId: user.id,
           schoolId: user.stemSchool,
-          title: _titleController.text.trim(),
+          title: title,
           description: _descriptionController.text.trim(),
           price: price,
           marketPrice: marketPrice,
@@ -385,8 +377,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Iconsax.image,
-                                  size: 40, color: Colors.blue),
+                              const Icon(
+                                Iconsax.image,
+                                size: 40,
+                                color: Colors.blue,
+                              ),
                               const SizedBox(height: TSizes.spaceBwItems / 2),
                               const Text(
                                 'Upload Product Images',
@@ -417,7 +412,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           height: 70,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            itemCount: _existingImageUrls.length +
+                            itemCount:
+                                _existingImageUrls.length +
                                 _pickedImageBytes.length,
                             separatorBuilder: (_, _) =>
                                 const SizedBox(width: TSizes.sm),
@@ -444,8 +440,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         child: const CircleAvatar(
                                           radius: 10,
                                           backgroundColor: Colors.red,
-                                          child: Icon(Icons.close,
-                                              size: 12, color: Colors.white),
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 12,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -474,8 +473,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       child: const CircleAvatar(
                                         radius: 10,
                                         backgroundColor: Colors.red,
-                                        child: Icon(Icons.close,
-                                            size: 12, color: Colors.white),
+                                        child: Icon(
+                                          Icons.close,
+                                          size: 12,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -495,8 +497,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         ),
                         validator: (value) =>
                             (value == null || value.trim().isEmpty)
-                                ? 'Product name is required'
-                                : null,
+                            ? 'Product name is required'
+                            : null,
                       ),
                       const SizedBox(height: TSizes.spaceBwInputFields),
 
@@ -533,14 +535,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         items: _subCategories
                             .map(
                               (sub) => DropdownMenuItem(
-                                  value: sub, child: Text(sub.name)),
+                                value: sub,
+                                child: Text(sub.name),
+                              ),
                             )
                             .toList(),
                         onChanged:
                             (_selectedCategory == null || _loadingSubCategories)
-                                ? null
-                                : (value) =>
-                                    setState(() => _selectedSubCategory = value),
+                            ? null
+                            : (value) =>
+                                  setState(() => _selectedSubCategory = value),
                         validator: (value) => value == null
                             ? 'Please select a subcategory'
                             : null,
@@ -563,7 +567,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           DropdownMenuItem(value: 'used', child: Text('Used')),
                         ],
                         onChanged: (value) => setState(
-                            () => _selectedCondition = value ?? 'used'),
+                          () => _selectedCondition = value ?? 'used',
+                        ),
                       ),
                       const SizedBox(height: TSizes.spaceBwInputFields),
 
@@ -677,12 +682,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         maxLines: 6,
                         validator: (value) =>
                             (value == null || value.trim().isEmpty)
-                                ? 'Description is required'
-                                : null,
+                            ? 'Description is required'
+                            : null,
                         decoration: const InputDecoration(
                           labelText: 'Description',
                           alignLabelWithHint: true,
-                          hintText: '• Usage duration\n'
+                          hintText:
+                              '• Usage duration\n'
                               '• Current condition\n'
                               '• Reason for selling\n'
                               '• Add any information that benefits the buyer',
