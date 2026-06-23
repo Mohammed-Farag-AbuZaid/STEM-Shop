@@ -143,3 +143,32 @@ lib/
 └── common/
 
 └── widgets/
+
+## colaboration
+
+This project is result of colaboation between two developer (Mohammed Farag & Mohammed Abd-Alghany).
+
+## Libraries & Packages
+
+| Package                                                                 | Version | Purpose                                                 |
+| ----------------------------------------------------------------------- | ------- | ------------------------------------------------------- |
+| [get](https://pub.dev/packages/get)                                     | ^4.x.x  | State management, navigation, dependency injection      |
+| [firebase_core](https://pub.dev/packages/firebase_core)                 | ^3.x.x  | Firebase initialization                                 |
+| [firebase_auth](https://pub.dev/packages/firebase_auth)                 | ^5.x.x  | Email/password authentication                           |
+| [cloud_firestore](https://pub.dev/packages/cloud_firestore)             | ^5.x.x  | NoSQL database                                          |
+| [firebase_storage](https://pub.dev/packages/firebase_storage)           | ^12.x.x | (installed but unused — images go via Cloudinary)       |
+| [http](https://pub.dev/packages/http)                                   | ^1.x.x  | Cloudinary image upload via HTTP POST                   |
+| [image_picker](https://pub.dev/packages/image_picker)                   | ^1.x.x  | Pick images from gallery for product/profile upload     |
+| [carousel_slider](https://pub.dev/packages/carousel_slider)             | ^5.x.x  | Product image carousel on details screen                |
+| [cached_network_image](https://pub.dev/packages/cached_network_image)   | ^3.x.x  | Efficient network image loading with cache              |
+| [get_storage](https://pub.dev/packages/get_storage)                     | ^2.x.x  | Lightweight local key-value storage                     |
+| [iconsax](https://pub.dev/packages/iconsax)                             | ^0.x.x  | Icon set used throughout the UI                         |
+| [readmore](https://pub.dev/packages/readmore)                           | ^3.x.x  | Expandable "Read more / Show less" text                 |
+| [url_launcher](https://pub.dev/packages/url_launcher)                   | ^6.x.x  | Launch WhatsApp and external product links              |
+| [intl_phone_field](https://pub.dev/packages/intl_phone_field)           | ^3.x.x  | International phone number input with country picker    |
+| [flutter_rating_bar](https://pub.dev/packages/flutter_rating_bar)       | ^4.x.x  | Star rating display on product details                  |
+| [flutter_native_splash](https://pub.dev/packages/flutter_native_splash) | ^2.x.x  | Native splash screen on app launch                      |
+| [mobile_scanner](https://pub.dev/packages/mobile_scanner)               | ^6.x.x  | QR/barcode scanner                                      |
+| [share_plus](https://pub.dev/packages/share_plus)                       | ^10.x.x | Share product links via system share sheet              |
+| [package_info_plus](https://pub.dev/packages/package_info_plus)         | ^8.x.x  | Read app version and build number                       |
+| [geolocator](https://pub.dev/packages/geolocator)                       | ^13.x.x | Device location (used for school detection or delivery) |
