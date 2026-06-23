@@ -1,10 +1,11 @@
-# STEM Shop 
+# STEM Shop
 
 > STEM Shop is a flutter application built to help stem students to buy and sell their products on thier schools to save time and costs.
 
 ---
 
 ## Overview
+
 STEM Shop is a Flutter mobile app built under the **TF Unions** platform. Students can list products for sale, browse their school's marketplace, submit item requests, and contact sellers directly via WhatsApp.
 
 Each student only sees products and requests from their own school (school-scoped).
@@ -12,6 +13,7 @@ Each student only sees products and requests from their own school (school-scope
 ---
 
 ## Features
+
 - Firebase Authentication (email/password)
 - Home screen with school-scoped product feed
 - Store screen with filtering system to reach the exact needed product
@@ -27,19 +29,39 @@ Each student only sees products and requests from their own school (school-scope
 ---
 
 ## Tech Stack
-| Layer | Technology |
-|---|---|
-| Framework | Flutter |
-| State Management | GetX |
-| Database | Firebase Firestore |
-| Authentication | Firebase Auth |
-| Image Storage | Cloudinary |
-| Image Picker | image_picker |
-| Deep Links | url_launcher |
+
+| Layer            | Technology         |
+| ---------------- | ------------------ |
+| Framework        | Flutter            |
+| State Management | GetX               |
+| Database         | Firebase Firestore |
+| Authentication   | Firebase Auth      |
+| Image Storage    | Cloudinary         |
+| Image Picker     | image_picker       |
+| Deep Links       | url_launcher       |
 
 ---
 
+## To Get start as a user
+
+just you need to create a TF account to be able to use the app
+
+## To Get Start as developer
+
+```bash
+# Clone the repo
+git clone https://github.com/Mohammed-Farag-AbuZaid/STEM-Shop
+cd stem-shop
+
+# Install dependencies
+flutter pub get
+
+# Run the app
+flutter run
+```
+
 ## Project Structure
+
 lib/
 
 ├── app.dart
@@ -50,73 +72,73 @@ lib/
 
 ├── data/
 
-│   ├── repositories/
+│ ├── repositories/
 
-│   │   ├── authentication_repositories.dart
+│ │ ├── authentication_repositories.dart
 
-│   │   ├── products/product_repository.dart
+│ │ ├── products/product_repository.dart
 
-│   │   ├── requests/request_repository.dart
+│ │ ├── requests/request_repository.dart
 
-│   │   └── user/user_repository.dart
+│ │ └── user/user_repository.dart
 
-│   └── services/
+│ └── services/
 
-│       └── cloudinary_storage_service.dart
+│ └── cloudinary_storage_service.dart
 
 ├── features/
 
-│   ├── authentication/
+│ ├── authentication/
 
-│   ├── personalization/
+│ ├── personalization/
 
-│   │   └── controllers/user_controller.dart
+│ │ └── controllers/user_controller.dart
 
-│   └── shop/
+│ └── shop/
 
-│       ├── controllers/
+│ ├── controllers/
 
-│       │   ├── categories_controller.dart
+│ │ ├── categories_controller.dart
 
-│       │   ├── home_page_controller.dart
+│ │ ├── home_page_controller.dart
 
-│       │   ├── products_controller.dart
+│ │ ├── products_controller.dart
 
-│       │   ├── cart_controller.dart
+│ │ ├── cart_controller.dart
 
-│       │   ├── order_controller.dart
+│ │ ├── order_controller.dart
 
-│       │   ├── seller_order_controller.dart
+│ │ ├── seller_order_controller.dart
 
-│       │   └── requests_controller.dart
+│ │ └── requests_controller.dart
 
-│       ├── models/
+│ ├── models/
 
-│       │   ├── product_model.dart
+│ │ ├── product_model.dart
 
-│       │   ├── category_model.dart
+│ │ ├── category_model.dart
 
-│       │   ├── request_model.dart
+│ │ ├── request_model.dart
 
-│       │   └── order_model.dart
+│ │ └── order_model.dart
 
-│       └── screens/
+│ └── screens/
 
-│           ├── home/
+│ ├── home/
 
-│           ├── store/
+│ ├── store/
 
-│           ├── search/
+│ ├── search/
 
-│           ├── product_details/
+│ ├── product_details/
 
-│           ├── all_products/
+│ ├── all_products/
 
-│           ├── category/
+│ ├── category/
 
-│           ├── add/
+│ ├── add/
 
-│           └── requests/
+│ └── requests/
 
 └── common/
 
