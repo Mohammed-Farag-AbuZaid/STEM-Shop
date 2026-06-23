@@ -91,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     mainAxisExtent: 288,
                   ),
                   itemCount: 4,
-                  itemBuilder: (_, __) => const TProductCardSkeleton(),
+                  itemBuilder: (_, _) => const TProductCardSkeleton(),
                 );
               }
 

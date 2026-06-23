@@ -500,7 +500,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_native_splash:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: flutter_native_splash
       sha256: "9db4b80b044e9af17cc4b1272137fc7ace0054d879ef8210a76adc34aaf4cdff"
@@ -549,14 +549,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fluttericon:
-    dependency: "direct main"
-    description:
-      name: fluttericon
-      sha256: "252fa8043826e93d972a602497a260cb3d62b5aea6d045793e4381590f2c1e99"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -909,14 +901,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
-  image_pickers:
-    dependency: "direct main"
-    description:
-      name: image_pickers
-      sha256: e2f5d19a7b0a40af3af5d49c5855b22a755e6f79b22e0b58a65c44311b9d67c8
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.6"
   intl:
     dependency: "direct main"
     description:
@@ -957,14 +941,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  js:
-    dependency: "direct main"
-    description:
-      name: js
-      sha256: "53385261521cc4a0c4658fd0ad07a7d14591cf8fc33abbceae306ddb974888dc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.2"
   json_annotation:
     dependency: transitive
     description:
@@ -1419,7 +1395,7 @@ packages:
     source: hosted
     version: "1.10.2"
   sqflite:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sqflite
       sha256: "58a799e6ac17dd32fbab93813d39ed835a75ccc0f8f85b8955fe318c6712b082"
