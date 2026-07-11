@@ -8,9 +8,9 @@
 ## EMAIL : mohamed.farag.21.2.2009@gmail.com
 ## PASSWORD : mmffaass1
 
-## OR IF YOU GET THE FULL EXPERINCE YOU HAVE TO CHOOSE STEM IN THE ACADEMIC LEVEL WHILE CREATING THE TF ACCOUNT.
+## OR IF WANT YOU GET THE FULL EXPERINCE YOU HAVE TO CHOOSE STEM IN THE ACADEMIC LEVEL WHILE CREATING THE TF ACCOUNT.
 
-- first Goto TF-Unions Website
+- first Goto TF-Unions Website from here : https://tfunions.vercel.app/
 ![alt text](image.png)
 - second Register your account (jsut make sure that you choosed STEM as an Academic level)
 ![alt text](image-1.png)
