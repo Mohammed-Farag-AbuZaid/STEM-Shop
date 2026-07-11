@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
               const LoginForm(),
 
               // Divider
-              Row(
+              /* Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
@@ -80,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
+              ), */
             ],
           ),
         ),
