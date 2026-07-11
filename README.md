@@ -3,7 +3,23 @@
 > STEM Shop is a flutter application built to help stem students to buy and sell their products on thier schools to save time and costs.
 
 ---
+# NOTE IF YOU WANT A DEMO ACCUONT TO TEST THIS USE THIS EMAIL AND PASSWORD
 
+## EMAIL : mohamed.farag.21.2.2009@gmail.com
+## PASSWORD : mmffaass1
+
+## OR IF YOU GET THE FULL EXPERINCE YOU HAVE TO CHOOSE STEM IN THE ACADEMIC LEVEL WHILE CREATING THE TF ACCOUNT.
+
+- first Goto TF-Unions Website
+![alt text](image.png)
+- second Register your account (jsut make sure that you choosed STEM as an Academic level)
+![alt text](image-1.png)
+- third verify your email, the mail will be in the spam
+![alt text](image-2.png)
+- 4th login with your new credentials
+![alt text](image-3.png)
+- 5th you can now login and test your project
+![alt text](image-4.png)
 ## Overview
 
 STEM Shop is a Flutter mobile app built under the **TF Unions** platform. Students can list products for sale, browse their school's marketplace, submit item requests, and contact sellers directly via WhatsApp.

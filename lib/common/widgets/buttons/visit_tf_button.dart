@@ -12,7 +12,7 @@ class VisitTFButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
-          final uri = Uri.parse('https://tf-unions.netlify.app/');
+          final uri = Uri.parse('https://tfunions.vercel.app/');
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         },
         child: const Text('Visit TF-Unions'),

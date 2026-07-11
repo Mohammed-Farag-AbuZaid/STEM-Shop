@@ -100,7 +100,7 @@ class LoginForm extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: () async {
                   final Uri url = Uri.parse(
-                    "https://tf-unions.netlify.app/#homePage",
+                    "https://tfunions.vercel.app/",
                   );
                   if (await canLaunchUrl(url)) {
                     await launchUrl(
