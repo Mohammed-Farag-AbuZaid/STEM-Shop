@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:stem_shop/features/authentication/controllers/login/email_verification.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
 import 'package:stem_shop/features/authentication/screens/onBoarding/onboarding.dart';
@@ -17,7 +19,8 @@ import 'package:stem_shop/utils/exceptions/formate_exceptions.dart';
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
-  /// Variables
+  static const String _tfApiBaseUrl = 'https://n8n.tfunions.com/tf-api';
+
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
 
@@ -25,32 +28,53 @@ class AuthenticationRepository extends GetxController {
 
   @override
   void onReady() {
-    // Remove the native splash screen
     FlutterNativeSplash.remove();
-    // Redirect to the appropriate screen
     screenRedirect();
   }
 
   void screenRedirect() async {
+    final vpsUser = deviceStorage.read('tf_vps_user');
+    if (vpsUser != null) {
+      Get.offAll(() => const NavigationMenu());
+      return;
+    }
+
     final user = _auth.currentUser;
 
     if (user != null) {
-      // If the user is logged in
       if (user.emailVerified) {
-        final doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
-        if (!doc.exists ||
-            (doc.data() ?? {})['stemSchool'] == null ||
-            (doc.data()!['stemSchool'] as String).isEmpty) {
+        Map<String, dynamic> data = {};
+        bool exists = false;
+        try {
+          final res = await http
+              .get(Uri.parse('$_tfApiBaseUrl/api/collections/users/${user.uid}'))
+              .timeout(const Duration(seconds: 6));
+          if (res.statusCode == 200) {
+            final body = jsonDecode(res.body) as Map<String, dynamic>;
+            data = (body['data'] as Map<String, dynamic>?) ?? body;
+            exists = true;
+          }
+        } catch (_) {}
+
+        if (!exists) {
+          final doc = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+          exists = doc.exists;
+          data = doc.data() ?? {};
+        }
+
+        if (!exists ||
+            data['stemSchool'] == null ||
+            (data['stemSchool'] as String).isEmpty) {
           Get.offAll(
             () => const ChangeAcademicInfo(
               showBackArrow: false,
               fullMessage: false,
               title: 'Your Account Setup is Incomplete',
               description:
-                  'It looks like your account information has not been fully set up yet. This usually happens when you sign in with Google before creating an account on the TF Unions website. Please visit the TF Unions website to complete your registration and account details.',
+                  'It looks like your account information has not been fully set up yet. Please visit the TF Passport portal to complete your registration and account details.',
             ),
           );
         } else {
@@ -67,10 +91,26 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<UserCredential> loginWithEmailAndPassword(
+  Future<UserCredential?> loginWithEmailAndPassword(
     String email,
     String password,
   ) async {
+    try {
+      final res = await http
+          .post(
+            Uri.parse('$_tfApiBaseUrl/auth/login'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'email': email, 'password': password}),
+          )
+          .timeout(const Duration(seconds: 8));
+      if (res.statusCode == 200) {
+        final body = jsonDecode(res.body) as Map<String, dynamic>;
+        await deviceStorage.write('tf_vps_token', body['access_token']);
+        await deviceStorage.write('tf_vps_user', body['user']);
+        return null;
+      }
+    } catch (_) {}
+
     try {
       return await _auth.signInWithEmailAndPassword(
         email: email,
@@ -117,6 +157,8 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     try {
+      await deviceStorage.remove('tf_vps_token');
+      await deviceStorage.remove('tf_vps_user');
       try {
         await GoogleSignIn().signOut();
       } catch (_) {}
@@ -133,20 +175,13 @@ class AuthenticationRepository extends GetxController {
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      // Trigger the authentication flow
       final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
           await userAccount?.authentication;
-
-      // Create a new credential
       final credentials = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-
-      // Once signed in, return the UserCredential
       return await _auth.signInWithCredential(credentials);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;

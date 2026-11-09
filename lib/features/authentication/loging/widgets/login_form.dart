@@ -24,7 +24,6 @@ class LoginForm extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBwSections),
         child: Column(
           children: [
-            // Email
             TextFormField(
               controller: controller.email,
               validator: ((value) => TValidator.validateEmail(value)),
@@ -34,8 +33,6 @@ class LoginForm extends StatelessWidget {
               ),
             ),
             const SizedBox(height: TSizes.spaceBwInputFields),
-
-            // Password
             Obx(
               () => TextFormField(
                 controller: controller.password,
@@ -58,8 +55,6 @@ class LoginForm extends StatelessWidget {
               ),
             ),
             const SizedBox(height: TSizes.spaceBwInputFields / 2),
-
-            // Remember Me & Forgot Password
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -82,8 +77,6 @@ class LoginForm extends StatelessWidget {
               ],
             ),
             const SizedBox(height: TSizes.spaceBwSections),
-
-            // Sign In Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -91,21 +84,18 @@ class LoginForm extends StatelessWidget {
                 child: Text(TTexts.signIn),
               ),
             ),
-
             const SizedBox(height: TSizes.spaceBwItems),
-
-            // Create Account Button
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () async {
                   final Uri url = Uri.parse(
-                    "https://tfunions.vercel.app/",
+                    "https://auth.tfunions.com/?mode=register",
                   );
                   if (await canLaunchUrl(url)) {
                     await launchUrl(
                       url,
-                      mode: LaunchMode.externalApplication, // ← forces browser
+                      mode: LaunchMode.externalApplication,
                     );
                   } else {
                     TLoaders.errorSnackBar(
