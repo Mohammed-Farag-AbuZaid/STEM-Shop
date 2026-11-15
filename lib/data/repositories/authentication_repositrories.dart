@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
 import 'package:stem_shop/features/authentication/controllers/login/email_verification.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
 import 'package:stem_shop/features/authentication/screens/onBoarding/onboarding.dart';
@@ -18,8 +16,6 @@ import 'package:stem_shop/utils/exceptions/formate_exceptions.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
-
-  static const String _tfApiBaseUrl = 'https://n8n.tfunions.com/tf-api';
 
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
@@ -33,41 +29,26 @@ class AuthenticationRepository extends GetxController {
   }
 
   void screenRedirect() async {
-    final vpsUser = deviceStorage.read('tf_vps_user');
-    if (vpsUser != null) {
-      Get.offAll(() => const NavigationMenu());
-      return;
-    }
+    var user = _auth.currentUser;
 
-    final user = _auth.currentUser;
+    if (user != null) {
+      try {
+        await user.reload();
+        user = _auth.currentUser;
+      } catch (_) {}
+    }
 
     if (user != null) {
       if (user.emailVerified) {
-        Map<String, dynamic> data = {};
-        bool exists = false;
-        try {
-          final res = await http
-              .get(Uri.parse('$_tfApiBaseUrl/api/collections/users/${user.uid}'))
-              .timeout(const Duration(seconds: 6));
-          if (res.statusCode == 200) {
-            final body = jsonDecode(res.body) as Map<String, dynamic>;
-            data = (body['data'] as Map<String, dynamic>?) ?? body;
-            exists = true;
-          }
-        } catch (_) {}
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        final data = doc.data() ?? <String, dynamic>{};
 
-        if (!exists) {
-          final doc = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .get();
-          exists = doc.exists;
-          data = doc.data() ?? {};
-        }
-
-        if (!exists ||
+        if (!doc.exists ||
             data['stemSchool'] == null ||
-            (data['stemSchool'] as String).isEmpty) {
+            data['stemSchool'].toString().trim().isEmpty) {
           Get.offAll(
             () => const ChangeAcademicInfo(
               showBackArrow: false,
@@ -91,35 +72,19 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<UserCredential?> loginWithEmailAndPassword(
+  Future<UserCredential> loginWithEmailAndPassword(
     String email,
     String password,
   ) async {
-    try {
-      final res = await http
-          .post(
-            Uri.parse('$_tfApiBaseUrl/auth/login'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({'email': email, 'password': password}),
-          )
-          .timeout(const Duration(seconds: 8));
-      if (res.statusCode == 200) {
-        final body = jsonDecode(res.body) as Map<String, dynamic>;
-        await deviceStorage.write('tf_vps_token', body['access_token']);
-        await deviceStorage.write('tf_vps_user', body['user']);
-        return null;
-      }
-    } catch (_) {}
-
     try {
       return await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code);
+      throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code);
+      throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {
       throw const TFormatException();
     } catch (e) {
@@ -157,12 +122,12 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     try {
-      await deviceStorage.remove('tf_vps_token');
-      await deviceStorage.remove('tf_vps_user');
-      try {
-        await GoogleSignIn().signOut();
-      } catch (_) {}
-      await FirebaseAuth.instance.signOut();
+      if (!kIsWeb) {
+        try {
+          await GoogleSignIn().signOut();
+        } catch (_) {}
+      }
+      await _auth.signOut();
       Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
@@ -175,12 +140,21 @@ class AuthenticationRepository extends GetxController {
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider()
+          ..addScope('email')
+          ..addScope('profile');
+        return await _auth.signInWithPopup(googleProvider);
+      }
+
       final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await userAccount?.authentication;
+      if (userAccount == null) return null;
+
+      final GoogleSignInAuthentication googleAuth =
+          await userAccount.authentication;
       final credentials = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
       return await _auth.signInWithCredential(credentials);
     } on FirebaseAuthException catch (e) {
