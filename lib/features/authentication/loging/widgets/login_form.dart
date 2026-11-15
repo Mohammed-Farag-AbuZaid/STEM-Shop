@@ -1,16 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:stem_shop/data/repositories/authentication_repositrories.dart';
 import 'package:stem_shop/features/authentication/controllers/login/loging_controllers.dart';
 import 'package:stem_shop/features/authentication/screens/password_configrations/forget_password.dart';
 import 'package:stem_shop/utils/constants/sizes.dart';
 import 'package:stem_shop/utils/constants/text_strings.dart';
 import 'package:stem_shop/utils/popups/loaders.dart';
 import 'package:stem_shop/utils/validators/validation.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -88,24 +90,139 @@ class LoginForm extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                onPressed: () async {
-                  final Uri url = Uri.parse(
-                    "https://auth.tfunions.com/?mode=register",
-                  );
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(
-                      url,
-                      mode: LaunchMode.externalApplication,
-                    );
-                  } else {
-                    TLoaders.errorSnackBar(
-                      title: 'Error',
-                      message: 'Could not open the link. Please try again.',
-                    );
-                  }
-                },
-                child: const Text("Create a TF account."),
+                onPressed: () => _openCreateAccountDialog(context),
+                child: const Text("Create a TF account"),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _openCreateAccountDialog(BuildContext context) async {
+    final formKey = GlobalKey<FormState>();
+    final firstNameCtrl = TextEditingController();
+    final lastNameCtrl = TextEditingController();
+    final emailCtrl = TextEditingController();
+    final passwordCtrl = TextEditingController();
+    final schoolCtrl = TextEditingController();
+    var busy = false;
+
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setStateDialog) => AlertDialog(
+          title: const Text('Create your TF Passport'),
+          content: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: firstNameCtrl,
+                    decoration: const InputDecoration(labelText: 'First Name'),
+                    validator: (v) =>
+                        (v == null || v.trim().isEmpty) ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: lastNameCtrl,
+                    decoration: const InputDecoration(labelText: 'Last Name'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: emailCtrl,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (v) => TValidator.validateEmail(v),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: passwordCtrl,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: 'Password'),
+                    validator: (v) => (v == null || v.length < 6)
+                        ? 'Min 6 characters'
+                        : null,
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: schoolCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'STEM School / School (optional)',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: busy ? null : () => Navigator.of(ctx).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: busy
+                  ? null
+                  : () async {
+                      if (!(formKey.currentState?.validate() ?? false)) return;
+                      setStateDialog(() => busy = true);
+                      try {
+                        final cred = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                          email: emailCtrl.text.trim(),
+                          password: passwordCtrl.text,
+                        );
+                        final first = firstNameCtrl.text.trim();
+                        final last = lastNameCtrl.text.trim();
+                        final fullName = '$first $last'.trim();
+                        if (cred.user != null) {
+                          if (fullName.isNotEmpty) {
+                            await cred.user!.updateDisplayName(fullName);
+                          }
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(cred.user!.uid)
+                              .set({
+                            'id': cred.user!.uid,
+                            'uid': cred.user!.uid,
+                            'firstName': first,
+                            'lastName': last,
+                            'fullName': fullName,
+                            'username': fullName,
+                            'email': emailCtrl.text.trim(),
+                            'stemSchool': schoolCtrl.text.trim(),
+                            'academicLevel': 'STEM',
+                            'role': 'student',
+                            'registrationDate': FieldValue.serverTimestamp(),
+                            'updatedAt': FieldValue.serverTimestamp(),
+                          }, SetOptions(merge: true));
+                        }
+                        if (ctx.mounted) Navigator.of(ctx).pop();
+                        AuthenticationRepository.instance.screenRedirect();
+                      } on FirebaseAuthException catch (e) {
+                        TLoaders.errorSnackBar(
+                          title: 'Could not create account',
+                          message: e.message ?? e.code,
+                        );
+                      } catch (e) {
+                        TLoaders.errorSnackBar(
+                          title: 'Could not create account',
+                          message: e.toString(),
+                        );
+                      } finally {
+                        if (ctx.mounted) setStateDialog(() => busy = false);
+                      }
+                    },
+              child: busy
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text('Create Account'),
             ),
           ],
         ),

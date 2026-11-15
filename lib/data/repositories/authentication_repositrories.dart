@@ -5,10 +5,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:stem_shop/features/authentication/controllers/login/email_verification.dart';
 import 'package:stem_shop/features/authentication/loging/login.dart';
 import 'package:stem_shop/features/authentication/screens/onBoarding/onboarding.dart';
-import 'package:stem_shop/features/authentication/screens/update_user_info/change_academciinfo_screen.dart';
 import 'package:stem_shop/navigation_menu.dart';
 import 'package:stem_shop/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:stem_shop/utils/exceptions/firebase_exceptions.dart';
@@ -28,42 +26,62 @@ class AuthenticationRepository extends GetxController {
     screenRedirect();
   }
 
-  void screenRedirect() async {
-    var user = _auth.currentUser;
+  Future<void> _ensureFirestoreProfile(User user) async {
+    try {
+      final ref = FirebaseFirestore.instance.collection('users').doc(user.uid);
+      final snap = await ref.get();
+      if (snap.exists) return;
+      final fullName =
+          (user.displayName ?? user.email?.split('@').first ?? 'Scholar')
+              .trim();
+      final parts =
+          fullName.split(RegExp(r'\s+')).where((s) => s.isNotEmpty).toList();
+      await ref.set({
+        'id': user.uid,
+        'uid': user.uid,
+        'firstName': parts.isNotEmpty ? parts.first : fullName,
+        'lastName': parts.length > 1 ? parts.sublist(1).join(' ') : '',
+        'fullName': fullName,
+        'username': fullName,
+        'email': user.email ?? '',
+        'profilePicture': user.photoURL ?? '',
+        'role': 'student',
+        'academicLevel': 'STEM',
+        'registrationDate': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+    } catch (e) {
+      if (kDebugMode) print('Firestore profile backfill failed: $e');
+    }
+  }
 
-    if (user != null) {
+  void screenRedirect() async {
+    if (kIsWeb) {
       try {
-        await user.reload();
-        user = _auth.currentUser;
+        await _auth.getRedirectResult();
+      } catch (_) {}
+    }
+
+    var user = _auth.currentUser;
+    if (user == null) {
+      try {
+        user = await _auth.authStateChanges().first.timeout(
+              const Duration(seconds: 2),
+              onTimeout: () => _auth.currentUser,
+            );
       } catch (_) {}
     }
 
     if (user != null) {
-      if (user.emailVerified) {
-        final doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
-        final data = doc.data() ?? <String, dynamic>{};
+      try {
+        await user.reload();
+        user = _auth.currentUser ?? user;
+      } catch (_) {}
+    }
 
-        if (!doc.exists ||
-            data['stemSchool'] == null ||
-            data['stemSchool'].toString().trim().isEmpty) {
-          Get.offAll(
-            () => const ChangeAcademicInfo(
-              showBackArrow: false,
-              fullMessage: false,
-              title: 'Your Account Setup is Incomplete',
-              description:
-                  'It looks like your account information has not been fully set up yet. Please visit the TF Passport portal to complete your registration and account details.',
-            ),
-          );
-        } else {
-          Get.offAll(() => const NavigationMenu());
-        }
-      } else {
-        Get.offAll(() => const EmailVerification());
-      }
+    if (user != null) {
+      await _ensureFirestoreProfile(user);
+      Get.offAll(() => const NavigationMenu());
     } else {
       deviceStorage.writeIfNull('IsFirstTime', true);
       deviceStorage.read('IsFirstTime') != true
@@ -144,7 +162,20 @@ class AuthenticationRepository extends GetxController {
         final googleProvider = GoogleAuthProvider()
           ..addScope('email')
           ..addScope('profile');
-        return await _auth.signInWithPopup(googleProvider);
+        try {
+          return await _auth.signInWithPopup(googleProvider);
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'popup-blocked' ||
+              e.code == 'operation-not-supported-in-this-environment') {
+            await _auth.signInWithRedirect(googleProvider);
+            return null;
+          }
+          if (e.code == 'popup-closed-by-user' ||
+              e.code == 'cancelled-popup-request') {
+            return null;
+          }
+          rethrow;
+        }
       }
 
       final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
@@ -158,6 +189,9 @@ class AuthenticationRepository extends GetxController {
       );
       return await _auth.signInWithCredential(credentials);
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'unauthorized-domain') {
+        throw 'This domain is not authorized in Firebase Auth.';
+      }
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
